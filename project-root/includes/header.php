@@ -6,7 +6,7 @@
             </div>
 
             <div class="search-box">
-                <input type="text" placeholder="جستجو محصولات...">
+                <input type="text" placeholder="جستجو محصولات..." dir="rtl">
                 <button>🔍</button>
             </div>
 
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <nav class="main-nav">
+    <nav class="main-nav" dir="rtl">
         <div class="container">
             <ul>
                 <li><a href="./index.php">خانه</a></li>

@@ -1,4 +1,4 @@
-<footer class="main-footer">
+<footer class="main-footer" dir="rtl">
 
     <div class="footer-content">
         <div class="container footer-grid">
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="footer-bottom">
+    <div class="footer-bottom" dir="ltr">
         © 2026 تمامی حقوق محفوظ است.
     </div>
 

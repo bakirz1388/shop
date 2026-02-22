@@ -24,7 +24,7 @@
         <div class="auth-form active" id="login">
             <h2>ورود به حساب</h2>
             <form>
-                <input type="email" placeholder="ایمیل">
+                <input type="text" placeholder="نام کاربری">
                 <input type="password" placeholder="رمز عبور">
                 <button type="submit" class="auth-btn">ورود</button>
             </form>
@@ -35,6 +35,7 @@
             <h2>ایجاد حساب کاربری</h2>
             <form>
                 <input type="text" placeholder="نام کامل">
+                <input type="text" placeholder="نام کاربری">
                 <input type="email" placeholder="ایمیل">
                 <input type="password" placeholder="رمز عبور">
                 <input type="password" placeholder="تکرار رمز عبور">
