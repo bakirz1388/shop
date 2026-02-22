@@ -21,19 +21,19 @@
         </div>
 
         <!-- LOGIN -->
-        <div class="auth-form active" id="login">
+        <div class="auth-form active" id="login" method="POST" name="login">
             <h2>ورود به حساب</h2>
             <form>
-                <input type="text" placeholder="نام کاربری">
-                <input type="password" placeholder="رمز عبور">
+                <input type="text" placeholder="نام کاربری" id="1">
+                <input type="password" placeholder="رمز عبور" id="2">
                 <button type="submit" class="auth-btn">ورود</button>
             </form>
         </div>
-
+        <div id="toast" class="toast"></div>
         <!-- REGISTER -->
         <div class="auth-form" id="register">
             <h2>ایجاد حساب کاربری</h2>
-            <form>
+            <form action="api/login_action.php" method="POST" name="register">
                 <input type="text" placeholder="نام کامل">
                 <input type="text" placeholder="نام کاربری">
                 <input type="email" placeholder="ایمیل">
@@ -42,7 +42,7 @@
                 <button type="submit" class="auth-btn">ثبت نام</button>
             </form>
         </div>
-
+        <div id="toast" class="toast"></div>
     </div>
 
 </main>
