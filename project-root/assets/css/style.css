@@ -1,0 +1,258 @@
+/* ================= RESET ================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: #F7F9FC;
+    display: flex;
+    flex-direction: column;
+}
+
+/* باعث میشه فوتر همیشه پایین باشه */
+main {
+    flex: 1;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* ================= HEADER ================= */
+
+.main-header {
+    width: 100%;
+}
+
+/* --- Top Bar --- */
+
+.top-bar {
+    background: #000000;
+    padding: 15px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.top-bar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+
+.logo a {
+    font-size: 26px;
+    font-weight: 700;
+    color: #FF6B6B;
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 38px;
+    height: auto;
+}
+
+/* Search */
+
+.search-box {
+    display: flex;
+    width: 40%;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.search-box input:focus {
+    border-color: #4ECDC4;
+}
+
+.search-box button {
+    padding: 10px 18px;
+    border: none;
+    background: #4ECDC4;
+    color: #fff;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    transition: 0.3s;
+    height: 38px;
+}
+
+.search-box button:hover {
+    background: #38b2ac;
+}
+
+/* Header Actions */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+
+.header-actions a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.header-actions a:hover {
+    color: #FF6B6B;
+}
+
+/* Cart */
+
+.cart-btn {
+    background: #FFE66D;
+    padding: 8px 15px;
+    border-radius: 25px;
+    position: relative;
+    transition: 0.3s;
+}
+
+.cart-btn:hover {
+    transform: scale(1.07);
+}
+
+.cart-count {
+    background: #FF6B6B;
+    color: #fff;
+    font-size: 12px;
+    padding: 3px 7px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* --- Navigation --- */
+
+.main-nav {
+    background: #FF6B6B;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 12px 0;
+}
+
+.main-nav li {
+    margin-left: 30px;
+}
+
+.main-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-nav a:hover {
+    opacity: 0.8;
+    letter-spacing: 1px;
+}
+
+/* ================= FOOTER ================= */
+
+.main-footer {
+    width: 100%;
+    margin-top: 50px;
+}
+
+/* قسمت اصلی فوتر */
+
+.footer-content {
+    background: #2D3436;
+    padding: 25px 0;
+    color: #fff;
+}
+
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-col {
+    flex: 1;
+}
+
+.footer-col h3,
+.footer-col h4 {
+    margin-bottom: 15px;
+}
+
+.footer-col p {
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 8px;
+}
+
+.footer-col a {
+    color: #ccc;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.footer-col a:hover {
+    color: #fff;
+}
+
+/* پایین فوتر */
+
+.footer-bottom {
+    background: #1f2527;
+    text-align: center;
+    padding: 15px;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+
+    .top-bar .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .footer-grid {
+        flex-direction: column;
+    }
+
+    .main-nav ul {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}
