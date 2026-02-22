@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="icon" href="assets/images/logoBakiRZ.png">
-    <title>BakiRZ</title>
+    <title>BakiRZ | Home</title>
 
 </head>
 <body>
@@ -19,6 +19,7 @@
 
 <?php include 'includes/footer.php'; ?>
 
-    <!-- <script src="assets/js/main.js"></script> -->
+    <script src="assets/js/jquery.main.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -22,7 +22,7 @@
     <nav class="main-nav">
         <div class="container">
             <ul>
-                <li><a href="#">خانه</a></li>
+                <li><a href="./index.php">خانه</a></li>
                 <li>|</li>
                 <li><a href="#">محصولات</a></li>
                 <li>|</li>
