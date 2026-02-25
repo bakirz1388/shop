@@ -334,7 +334,6 @@ main {
 
 .auth-form input:focus {
     border-color: #4ECDC4;
-    box-shadow: 2px;
     outline: none;
 }
 
@@ -374,4 +373,10 @@ main {
     .auth-container {
         width: 90%;
     }
+}
+
+.invaled {
+    outline: none;
+    border: 1px red solid;
+    box-shadow: 0px 0px 7px 0px red;
 }

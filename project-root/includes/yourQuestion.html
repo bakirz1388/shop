@@ -1,0 +1,108 @@
+<style>
+    body {
+        font-family: sans-serif;
+        direction: rtl;
+        max-width: 600px;
+        margin: auto;
+        font-weight: bold;
+    }
+
+    .question {
+        background: #f2f2f2;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 10px;
+    }
+
+    .answer {
+        display: none;
+        padding: 10px;
+        background: #fafafa;
+    }
+
+    span {
+        color: red;
+    }
+</style>
+
+
+<h2>سوالات متداول</h2>
+
+<div class="question">چگونه ثبت نام کنیم ؟</div>
+<div class="answer">
+    <p>
+        در بالای صفحه گزینه ثبت نام را کلیک کنید و مشخصات خود را وارد کنید.
+    </p>
+</div>
+
+<div class="question">چگونه سفارش ثبت کنیم ؟</div>
+<div class="answer">
+    <p>
+        ابتدا محصول مورد نظر را به سبد خرید اضافه کرده و پس از پرداخت هزینه سفارش شما ثبت میشود .
+    </p>
+</div>
+
+<div class="question">چقدر طول می‌کشد سفارش برسد ؟</div>
+<div class="answer">
+    <p>
+        این عمل بسته به ترافیک های سفارش و مسیر دارد و نهایت امکان دارد
+        <span>با 2 روز تاخیر</span>
+        به دست شما برسد.
+    </p>
+</div>
+
+<div class="question"> چگونه عمل پرداخت را انجام بدم ؟ </div>
+<div class="answer">
+    <p>
+        پس از افزودن به سبد خرید از طریق درگاه بانکی میتوانید عمل پرداخت را انجام دهید .
+    </p>
+</div>
+
+<div class="question"> هزینه ارسال در چه حدودی است ؟ </div>
+<div class="answer">
+    <p>
+        هزینه ارسال بستگی به روز انتخابی شما دارد و اگر عجله ای در سفارش دارید حدود
+        <span>100.000تومان</span>
+        هزینه ارسال در نظر گرفته شده است.
+    </p>
+</div>
+
+<div class="question"> پس از ثبت سفارش میتوانیم سفارش را لغو کنیم ؟ </div>
+<div class="answer">
+    <p>
+        بله شما میتوانید تا
+        <span>24 ساعت</span>
+        پس از ثبت سفارش آن را لغو کنید.
+    </p>
+</div>
+
+<div class="question"> چگونه با پشتیبان تماس بگیرم ؟ </div>
+<div class="answer">
+    <p>
+        شما میتوانید با شماره گیری 09123456789 با پشتیبان این مجموعه در ارتباط باشید.
+    </p>
+</div>
+
+<div class="question">امکان مرجوعی وجود دارد ؟</div>
+<div class="answer">
+    <p>
+        بله شما میتوانید محصول را تا 2روز پس از رسیدن محصول به دستتان
+        <span>در صورت سالم بودن</span>
+        به ما برگردانید
+    </p>
+</div>
+
+
+<script>
+
+    var q = document.querySelectorAll(".question");
+    q.forEach(item => {
+        item.addEventListener("click", () => {
+            var a = item.nextElementSibling;
+            if (a.style.display === "block")
+                a.style.display = "none";
+            else
+                a.style.display = "block";
+        });
+    });
+</script>

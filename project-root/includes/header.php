@@ -11,8 +11,8 @@
             </div>
 
             <div class="header-actions">
-                <a href="login.php" class="login-btn">ورود | ثبت‌نام</a>
-                <a href="cart.php" class="cart-btn">
+                <a href="register.php" class="login-btn" target="_self">ورود | ثبت‌نام</a>
+                <a href="cart.php" target="_blank" class="cart-btn">
                     🛒 <span class="cart-count">0</span>
                 </a>
             </div>
@@ -28,7 +28,7 @@
                 <li>|</li>
                 <li><a href="#">پرفروش ترین محصولات</a></li>
                 <li>|</li>
-                <li><a href="#">سوالی دارید؟</a></li>
+                <li><a href="question.php">سوالی دارید؟</a></li>
             </ul>
         </div>
     </nav>
