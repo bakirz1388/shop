@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
     <div class="auth-container">
         <div class="auth-form active" id="login" method="POST" name="login">
             <h2>ایجاد حساب</h2>
-            <form>
+            <form id="register-form">
                 <input type="text" placeholder="نام کامل" id="realname">
                 <input type="text" placeholder="نام کاربری" id="r-username">
                 <input type="email" placeholder="ایمیل" id="email">
@@ -24,7 +24,7 @@
                 <input type="password" placeholder="تکرار رمز عبور" id="repassword">
                 <a href="login.php"><b>ورود به حساب</b></a><br>
                 <span class="error-msg"></span><br>
-                <button type="submit" class="auth-btn">ورود</button>
+                <button type="button" class="auth-btn">ورود</button>
             </form>
         </div>
     </div>

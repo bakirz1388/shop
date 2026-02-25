@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +7,21 @@
     <link rel="icon" href="assets/images/logoBakiRZ.png">
     <title>BakiRZ | Home</title>
 
-</head>
-<body>
-    <?php include 'includes/header.php'; ?>
-
-<main>
     <style>
     body {
         font-family: sans-serif;
-        text-align: center;
-        direction: rtl;
         margin: auto;
         font-weight: bold;
     }
 
+    center {
+        position: relative;
+        left: 25%;
+        width: 55%;
+        margin-top: 50px;
+    }
+
     .question {
-        width: 50%;
         background: #f2f2f2;
         padding: 10px;
         margin-top: 5px;
@@ -39,6 +38,11 @@
         color: red;
     }
 </style>
+</head>
+<body>
+    <?php include 'includes/header.php'; ?>
+
+<main>
 
 <center>
 <h2>سوالات متداول</h2>

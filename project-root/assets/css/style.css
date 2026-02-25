@@ -13,6 +13,7 @@ body {
 
 body {
     font-family: 'Vazirmatn', sans-serif;
+    font-weight: 600;
     background: #F7F9FC;
     display: flex;
     flex-direction: column;
@@ -263,7 +264,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 25px 0;
+    padding: 25px 0 0 0;
 }
 
 .auth-container {
@@ -276,47 +277,16 @@ main {
     overflow: hidden;
 }
 
-/* Tabs */
-
-.auth-tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.tab-btn {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    background: #eee;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.tab-btn.active {
-    background: #FF6B6B;
-    color: #fff;
-}
-
-.tab-btn:first-child {
-    border-radius: 10px 0 0 10px;
-}
-
-.tab-btn:last-child {
-    border-radius: 0 10px 10px 0;
-}
-
 /* Forms */
 
-.auth-form {
+/* .auth-form {
     display: none;
     animation: fadeIn 0.4s ease-in-out;
-}
+} */
 
-.auth-form.active {
+/* .auth-form.active {
     display: block;
-}
+} */
 
 .auth-form h2 {
     text-align: center;
@@ -355,7 +325,7 @@ main {
 
 /* Animation */
 
-@keyframes fadeIn {
+/* @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
@@ -365,18 +335,25 @@ main {
         opacity: 1;
         transform: translateY(0);
     }
-}
+} */
 
 /* Responsive */
 
-@media (max-width: 500px) {
+/* @media (max-width: 500px) {
     .auth-container {
         width: 90%;
     }
-}
+} */
 
 .invaled {
     outline: none;
     border: 1px red solid;
     box-shadow: 0px 0px 7px 0px red;
+}
+
+.error-msg {
+    color: #d90429;
+    font-size: 14px;
+    display: block;
+    min-height: 20px;
 }
