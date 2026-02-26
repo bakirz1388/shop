@@ -46,5 +46,29 @@ main.reg = () => {
 $(() => {
     $(".auth-btn").on('click', function () {
         main.reg();
+    })
+});
+
+// **=========== login check ============**
+
+main.log = () => {
+
+    $(".error-msg").text("");
+    $(".invaled").removeClass("invaled");
+
+    if ($("#l-username").val() == "") {
+        $(".error.msg").text("نام کاربری خود را بنویسید");
+        $("#l-username").addClass("invaled");
+        return;
+    }
+    if ($("#l-password").val() == "") {
+        $(".error-msg").text("پسورد خود را بنویسید");
+        $("#l-password").addClass("invaled");
+    }
+}
+
+$(() => {
+    $(".auth-btn").on('click', function () {
+        main.log();
     });
 })

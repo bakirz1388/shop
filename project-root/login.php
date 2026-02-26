@@ -21,7 +21,7 @@
                 <input type="password" placeholder="رمز عبور" id="l-password">
                 <a href="register.php"><strong>ایجاد حساب</strong></a><br>
                 <span class="error-msg"></span><br>
-                <button type="submit" class="auth-btn">ورود</button>
+                <button type="button" class="auth-btn">ورود</button>
             </form>
         </div>
     </div>
