@@ -14,13 +14,12 @@
 <main class="auth-page">
 
     <div class="auth-container">
-        <!-- LOGIN -->
         <div class="auth-form active" id="login" method="POST" name="login">
             <h2>ورود به حساب</h2>
             <form>
                 <input type="text" placeholder="نام کاربری" id="l-username">
                 <input type="password" placeholder="رمز عبور" id="l-password">
-                <a href="register.php"><b>ایجاد حساب</b></a><br>
+                <a href="register.php"><strong>ایجاد حساب</strong></a><br>
                 <span class="error-msg"></span><br>
                 <button type="submit" class="auth-btn">ورود</button>
             </form>

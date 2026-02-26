@@ -29,15 +29,15 @@ main.reg = () => {
         $("#r-password").addClass("invaled");
         return;
     }
-    if ($("#re-password").val() == "") {
+    if ($("#repassword").val() == "") {
         $(".error-msg").text("پسورد خود را برای تایید بنویسید");
         $("#re-password").addClass("invaled");
         return;
     }
 
-    if ($("#pass").val() != $("#re-pass").val()) {
-        $(".error-msg").text("congfirm password is not corect !");
-        $("#re-pass").addClass("invaled");
+    if ($("#r-password").val() != $("#repassword").val()) {
+        $(".error-msg").text("تایید پسورد شباهت ندارد");
+        $("#repassword").addClass("invaled");
         return;
     }
 
