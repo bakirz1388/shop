@@ -29,6 +29,10 @@
                 <li><a href="#">پرفروش ترین محصولات</a></li>
                 <li>|</li>
                 <li><a href="question.php">سوالی دارید؟</a></li>
+                <li>|</li>
+                <li><a href="panel/index.php" target="_blank">پنل ادمین</a></li>
+                <li>|</li>
+                <li><a href="panel/seller.php" target="_blank">پنل فروشنده</a></li>
             </ul>
         </div>
     </nav>

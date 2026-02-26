@@ -15,6 +15,7 @@
     }
 
     center {
+        text-align: right;
         position: relative;
         left: 25%;
         width: 55%;
@@ -22,16 +23,41 @@
     }
 
     .question {
+        cursor: pointer;
         background: #f2f2f2;
         padding: 10px;
+        padding-left: 32px;
         margin-top: 5px;
         border-radius: 10px;
+        position: relative;
+    }
+
+    .question::before {
+        content: ">";
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%) rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+
+    .question.open::before {
+        transform: translateY(-50%) rotate(90deg);
     }
 
     .answer {
-        display: none;
-        padding: 10px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        padding: 0 10px;
         background: #fafafa;
+        transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease;
+    }
+
+    .answer.open {
+        max-height: 250px;
+        opacity: 1;
+        padding: 10px;
     }
 
     span {
@@ -118,10 +144,8 @@
     q.forEach(item => {
         item.addEventListener("click", () => {
             var a = item.nextElementSibling;
-            if (a.style.display === "block")
-                a.style.display = "none";
-            else
-                a.style.display = "block";
+            a.classList.toggle("open");
+            item.classList.toggle("open");
         });
     });
 </script>

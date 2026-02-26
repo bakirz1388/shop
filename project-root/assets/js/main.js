@@ -46,7 +46,7 @@ main.reg = () => {
 $(() => {
     $(".auth-btn").on('click', function () {
         main.reg();
-    })
+    });
 });
 
 // **=========== login check ============**
@@ -71,4 +71,4 @@ $(() => {
     $(".auth-btn").on('click', function () {
         main.log();
     });
-})
+});
