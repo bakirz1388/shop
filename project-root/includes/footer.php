@@ -13,7 +13,7 @@
                 <ul>
                     <li><a href="index.php">خانه</a></li>
                     <li><a href="shop.php">محصولات</a></li>
-                    <li><a href="about.php">درباره ما</a></li>
+                    <li><a href="aboutus.php">درباره ما</a></li>
                     <li><a href="contact.php">تماس با ما</a></li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="footer-bottom" dir="ltr">
-        © 2026 تمامی حقوق محفوظ است.
+        © 2026 - 2026 | BakiRZ .تمامی حقوق محفوظ است
     </div>
 
 </footer>

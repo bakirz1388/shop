@@ -8,15 +8,14 @@
     <title>BakiRZ | Login</title>
 </head>
 <body>
-    
-    <?php include 'includes/header.php'; ?>
+<?php include 'includes/header.php'; ?>
 
 <main class="auth-page">
 
     <div class="auth-container">
         <div class="auth-form active" id="login" method="POST" name="login">
             <h2>ایجاد حساب</h2>
-            <form id="register-form">
+            <div id="register-form">
                 <input type="text" placeholder="نام کامل" id="realname">
                 <input type="text" placeholder="نام کاربری" id="r-username">
                 <input type="email" placeholder="ایمیل" id="email">
@@ -24,8 +23,8 @@
                 <input type="password" placeholder="تکرار رمز عبور" id="repassword">
                 <a href="login.php"><b>ورود به حساب</b></a><br>
                 <span class="error-msg"></span><br>
-                <button type="button" class="auth-btn">ورود</button>
-            </form>
+                <button class="auth-btn" id="register-btn">ایجاد</button>
+            </div>
         </div>
     </div>
 

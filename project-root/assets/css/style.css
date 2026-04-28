@@ -6,8 +6,17 @@
     box-sizing: border-box;
 }
 
+ul {
+    list-style-type: none;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0px;
+}
+
 html,
 body {
+    margin: 0;
+    padding: 0;
     height: 100%;
 }
 
@@ -19,7 +28,6 @@ body {
     flex-direction: column;
 }
 
-/* باعث میشه فوتر همیشه پایین باشه */
 main {
     flex: 1;
 }
@@ -153,6 +161,7 @@ main {
 .main-nav ul {
     display: flex;
     list-style: none;
+    margin-bottom: 15px;
     padding: 12px 0;
 }
 
@@ -191,6 +200,11 @@ main {
 .main-nav a:hover::after {
     transform: scaleX(1);
     transform-origin: left;
+}
+
+.username-header {
+    color: white;
+    margin-right: 15px;
 }
 
 /* ================= FOOTER ================= */
@@ -366,7 +380,7 @@ main {
     }
 } */
 
-.invaled {
+.invalid {
     outline: none;
     border: 1px red solid;
     box-shadow: 0px 0px 7px 0px red;
@@ -782,7 +796,6 @@ main {
 
 .seller-layout {
     display: grid;
-    grid-template-columns: 360px 1fr;
     gap: 18px;
 }
 
@@ -835,6 +848,10 @@ main {
 }
 
 .seller-form button {
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    width: 50%;
     border: none;
     border-radius: 10px;
     padding: 12px;
@@ -947,6 +964,7 @@ main {
     cursor: pointer;
 }
 
+
 @media (max-width: 992px) {
     .seller-layout {
         grid-template-columns: 1fr;
@@ -955,4 +973,44 @@ main {
     .seller-form-wrap {
         position: static;
     }
+}
+
+/* ================= Products ================= */
+
+
+.product-list {
+    display: flex;
+    width: 60vw;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+.product-list .item {
+    border: #adadad solid 1px;
+    background-color: #e6e6e6;
+    width: 20%;
+    direction: rtl;
+    padding: 20px;
+    transition: 0.5s;
+}
+
+.product-list .item:hover {
+    border-radius: 20px;
+    box-shadow: #000000 0px 0px 5px;
+    transform: translateY(-5px);
+}
+
+.product-list .item img {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.product-list .item .product-name {
+    margin-bottom: 5px;
+
+}
+
+.product-list .item .product-price {
+    margin-bottom: 5px;
+    font-size: smaller;
 }

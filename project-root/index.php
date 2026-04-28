@@ -9,13 +9,13 @@
 
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include_once "includes/header.php" ?>
+    <main>
 
-<main>
-    
-</main>
+    </main>
 
-<?php include 'includes/footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
+
 
     <script src="assets/js/jquery.main.js"></script>
     <script src="assets/js/main.js"></script>
