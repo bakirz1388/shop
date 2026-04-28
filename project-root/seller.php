@@ -29,6 +29,7 @@
                     <input type="number" id="product-price" placeholder="قیمت (تومان)">
                     <input type="number" id="product-stock" placeholder="موجودی">
                     <input type="file" id="product-image" accept="image/*jpg">
+                    <strong style="color:red;">  برای بهتر دیده شدن عکس ها در بخش محصولات، بهتر است که اندازه فایل ( 1x1 ) باشد</strong>
                     <img id="seller-image-preview" class="seller-image-preview" alt="preview">
                     <textarea id="product-description" placeholder="توضیحات کوتاه محصول"></textarea>
                     <span class="error-msg"></span><br>

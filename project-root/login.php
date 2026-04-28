@@ -8,7 +8,7 @@
     <title>BakiRZ | Login</title>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include("includes/header.php") ?>
 
 <main class="auth-page">
 
@@ -30,7 +30,7 @@
 <script src="assets/js/jquery.main.js"></script>
 <script src="assets/js/main.js"></script>
 
-<?php include 'includes/footer.php'; ?>
+<?php include("includes/footer.php") ?>
 
 </body>
 </html>

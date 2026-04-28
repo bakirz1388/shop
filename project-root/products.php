@@ -22,7 +22,7 @@ $row = mysqli_fetch_array($result);
 
 </head>
 <body>
-    <?php include_once "includes/header.php" ?>
+    <?php include("includes/header.php") ?>
     <main>
         <ul class="product-list">
             <?php foreach($result as $prod): ?>
@@ -30,15 +30,17 @@ $row = mysqli_fetch_array($result);
                 <div class="picture">
                     <img src="assets/images/products/<?= $prod['img'] ?>.jpg">
                 </div>
-                <div class="product-name"><?= $prod['name'] ?></div>
-                <div class="product-price"><b style="color: red;"><?= number_format($prod['price']); ?></b> تومان</div>
-                <button class="auth-btn">افزودن به سبد خرید</button>
+                <div class="product">
+                    <div class="product-name"><?= $prod['name'] ?></div>
+                    <div class="product-price"><b style="color: red;"><?= number_format($prod['price']); ?></b> تومان</div>
+                    <button class="auth-btn">افزودن به سبد خرید</button>
+                </div>
             </li>
             <?php endforeach ?>
         </ul>
     </main>
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include("includes/footer.php") ?>
 
 
     <script src="assets/js/jquery.main.js"></script>

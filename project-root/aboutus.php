@@ -45,7 +45,7 @@
   </style>
 </head>
 <body>
-  <?php include 'includes/header.php'; ?>
+  <?php include("includes/header.php") ?>
   <div class="about">
     <h1>درباره ما </h1><br>
     <p>فروشگاه آنلاین ما با هدف ارائه محصولات با کیفیت و خدمات عالی به مشتریان عزیز فعالیت خود را آغاز کرده است.</p><br>
@@ -66,6 +66,6 @@
     <p>اگر سوالی دارید یا نیاز به کمک دارید، لطفا از طریق تلفن ، ایمیل با ما در تماس باشید.</p><br>
    
   </div> 
-  <?php include 'includes/footer.php'; ?>
+  <?php include("includes/footer.php") ?>
 </body>
 </html>

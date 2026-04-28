@@ -9,12 +9,12 @@
 
 </head>
 <body>
-    <?php include_once "includes/header.php" ?>
+    <?php include("includes/header.php") ?>
     <main>
 
     </main>
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include("includes/footer.php") ?>
 
 
     <script src="assets/js/jquery.main.js"></script>

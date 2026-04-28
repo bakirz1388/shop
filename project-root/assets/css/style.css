@@ -380,10 +380,11 @@ main {
     }
 } */
 
-.invalid {
-    outline: none;
-    border: 1px red solid;
-    box-shadow: 0px 0px 7px 0px red;
+.success-msg {
+    color: #009000;
+    font-size: 14px;
+    display: block;
+    min-height: 20px;
 }
 
 .error-msg {
@@ -392,6 +393,19 @@ main {
     display: block;
     min-height: 20px;
 }
+
+.valid {
+    outline: none;
+    border: 1px #17c500 solid;
+    box-shadow: 0px 0px 24px 20px rgb(65 255 74 / 36%);
+}
+
+.invalid {
+    outline: none;
+    border: 1px red solid;
+    box-shadow: 0px 0px 7px 0px red;
+}
+
 
 /* ================= ADMIN PANEL ================= */
 
@@ -803,6 +817,7 @@ main {
     background: #fff;
     border-radius: 18px;
     box-shadow: 0 10px 24px rgba(45, 52, 54, 0.08);
+    transition: 0.5s;
 }
 
 .seller-form-wrap {
@@ -986,9 +1001,13 @@ main {
 }
 
 .product-list .item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: #adadad solid 1px;
     background-color: #e6e6e6;
     width: 20%;
+    height: 355px;
     direction: rtl;
     padding: 20px;
     transition: 0.5s;
@@ -1002,6 +1021,7 @@ main {
 
 .product-list .item img {
     width: 100%;
+    max-height: 190px;
     border-radius: 15px;
 }
 

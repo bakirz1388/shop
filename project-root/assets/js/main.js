@@ -154,6 +154,11 @@ main.addProduct = () => {
         $('#product-name').addClass('invalid');
         return;
     }
+    if ($('#product-name').val().length > 30) {
+        $(".error-msg").text("نام محصول از 30 کاراکتر زیاد است");
+        $('#product-name').addClass('invalid');
+        return;
+    }
     if ($("#product-category").val() == 0) {
         $(".error-msg").text("انتخاب دسته‌بندی محصول الزامی است");
         $('#product-category').addClass('invalid');
@@ -165,17 +170,12 @@ main.addProduct = () => {
         return;
     }
     if ($("#product-stock").val() == "") {
-        $(".error-msg").text("نام محصول الزامی است");
+        $(".error-msg").text("موجودی محصول الزامی است");
         $('#product-stock').addClass('invalid');
         return;
     }
-    if ($("#product-image").val() == "undefined") {
-        $(".error-msg").text("قیمت محصول الزامی است");
-        $('#product-image').addClass('invalid');
-        return;
-    }
     if ($("#product-description").val() == "") {
-        $(".error-msg").text("نام محصول الزامی است");
+        $(".error-msg").text("توضیحی برای محصول الزامی است");
         $('#product-description').addClass('invalid');
         return;
     }
@@ -199,15 +199,10 @@ main.addProduct = () => {
         processData: false
     })
 
-    if (res.code == 501) {
-        console.log(2);
-
-    }
-    if (res.code == 400) {
-        console.log(1);
-
-    }
-
+    $(".error-msg").text("محصول شما با موفقیت اضافه شد");
+    $(".error-msg").addClass("success-msg");
+    $(".success-msg").removeClass("error-msg");
+    $(".seller-card").addClass("valid");
 }
 
 

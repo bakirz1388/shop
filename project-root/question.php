@@ -66,7 +66,7 @@
 </style>
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
+    <?php include("includes/header.php") ?>
 <main>
 
 <center>
@@ -150,7 +150,7 @@
 </script>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include("includes/footer.php") ?>
 
     <script src="assets/js/jquery.main.js"></script>
     <script src="assets/js/main.js"></script>
