@@ -10,6 +10,25 @@
 </head>
 <body>
     <?php include("includes/header.php") ?>
+    <center>
+        <nav class="navbar-categories">
+            <ul class="categories-list">
+                <li><a href="#">📱 الکترونیک</a></li>
+                <li>|</li>
+                <li><a href="#">👗 مد و پوشاک</a></li>
+                <li>|</li>
+                <li><a href="#">📚 کتاب و محصولات فرهنگی</a></li>
+                <li>|</li>
+                <li><a href="#">🏠 خانه و آشپزخانه</a></li>
+                <li>|</li>
+                <li><a href="#">⚽ ورزش و سفر</a></li>
+                <li>|</li>
+                <li><a href="#">💄 زیبایی و سلامت</a></li>
+                <li>|</li>
+                <li><a href="#">🧸 اسباب‌بازی</a></li>
+            </ul>
+        </nav>
+    </center>
     <main>
 
     </main>

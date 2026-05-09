@@ -27,6 +27,7 @@ function loginSuccess($res) {
     $_SESSION['user_id'] = $res['user_id'];
     $_SESSION['r_name'] = $res['r_name'];
     $_SESSION['u_name'] = $res['u_name'];
+    $_SESSION['role'] = $res['role'];
 
     echo json_encode(['code' => 401]);
 }

@@ -205,6 +205,26 @@ main.addProduct = () => {
     $(".seller-card").addClass("valid");
 }
 
+main.addShopCart = () => {
+
+
+    let addCart = {
+        productId: $("#productId").val(),
+        productImg: $("#productImg").val(),
+        productName: $("#productName").val(),
+        productPrice: $("#productPrice").val()
+    }
+
+    main.post('cart.php', addCart, res => {
+        if (res.code == 502) {
+            console.log(1);
+            return;
+        }
+        if (res.code == 401) {
+            console.log(2);
+        }
+    })
+};
 
 $(() => {
     $("#register-btn").on('click', function () {
@@ -216,5 +236,8 @@ $(() => {
 
     $('#submit-product').on('click', function () {
         main.addProduct();
+    })
+    $('.add-shop-cart').on('click', function () {
+        main.addShopCart();
     })
 });

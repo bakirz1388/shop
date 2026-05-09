@@ -1,4 +1,18 @@
-﻿<?php 
+<?php 
+
+$conn = new mysqli("localhost","root","","shop_db");
+
+if($conn->connect_error){
+    die("connection failed: " . $conn->connect_error);
+}
+
+$role = "SELECT * FROM users";
+
+$r_result = mysqli_query($conn,$role);
+$r_row = mysqli_fetch_array($r_result);
+
+
+
 session_start();
 if (isset($_SESSION['u_name'])) {
     $username = $_SESSION['u_name'];
@@ -6,6 +20,20 @@ if (isset($_SESSION['u_name'])) {
 $isLoggedIn = false;
     if (isset($username))
         $isLoggedIn = true;
+
+    if (isset($_SESSION['role'])) {
+        if ($_SESSION['role'] == 1) {
+            $panel = "<li>|</li><li><a href='./admin.php' target='_blank'>پنل ادمین</a></li><li>|</li><li><a href='./seller.php' target='_blank'>پنل فروشنده</a></li>";
+        }elseif ($_SESSION['role'] == 2) {
+            $panel = "<li>|</li><li><a href='./seller.php' target='_blank'>پنل فروشنده</a></li>";
+        }else {
+            $panel = "";
+        }
+    }
+
+$conn->close();
+
+
 
 ?>
 
@@ -23,11 +51,11 @@ $isLoggedIn = false;
 
             <div class="header-actions">
                 <?php if ($isLoggedIn): ?>
-                    <div class="username-header">! خوش آمدید <a href=""><?= $username ?></a></div>
+                    <div class="username-header"><a href="../api/logout.php" id="singout-btn">↪</a>  ! خوش آمدید <a href="./user-panel.php" target="_blank"><?= $username ?></a></div>
                 <?php else: ?>
-                    <a href="register.php" class="login-btn" target="_self">ورود | ثبت نام</a>
+                    <a href="login.php" class="login-btn" target="_self">ورود | ثبت نام</a>
                 <?php endif ?>
-                <a href="cart.php" target="_blank" class="cart-btn">
+                <a href="./cart.php" target="_blank" class="cart-btn">
                     🛒 <span class="cart-count">+10</span>
                 </a>
             </div>
@@ -44,10 +72,8 @@ $isLoggedIn = false;
                 <li><a href="#">پرفروش ترین محصولات</a></li>
                 <li>|</li>
                 <li><a href="question.php">سوالی دارید؟</a></li>
-                <li>|</li>
-                <li><a href="panel/index.php" target="_blank">پنل ادمین</a></li>
-                <li>|</li>
-                <li><a href="./seller.php" target="_blank">پنل فروشنده</a></li>
+                <?php if(isset($panel))
+                    echo($panel); ?>
             </ul>
         </div>
     </nav>

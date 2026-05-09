@@ -1,11 +1,34 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+$conn = new mysqli("localhost","root","","shop_db");
+
+if($conn->connect_error){
+    die("connection failed: " . $conn->connect_error);
+}
+
+$users = "SELECT * FROM users";
+
+$u_result = mysqli_query($conn,$users);
+$u_row = mysqli_fetch_array($u_result);
+
+
+$products = "SELECT * FROM products";
+
+$p_result = mysqli_query($conn,$products);
+$p_row = mysqli_fetch_array($p_result);
+
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
 <html lang="fa">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="icon" href="../assets/images/logoBakiRZ.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/images/logoBakiRZ.png">
     <title>BakiRZ | Admin Panel</title>
 </head>
 
@@ -22,9 +45,8 @@
                 <ul class="admin-menu">
                     <li><a href="#dashboard" class="active">داشبورد</a></li>
                     <li><a href="#orders">مدیریت سفارش‌ها</a></li>
-                    <li><a href="#products">مدیریت محصولات</a></li>
-                    <li><a href="#messages">پیام‌های کاربران</a></li>
-                    <li><a href="#add-product">افزودن محصول جدید</a></li>
+                    <li><a href="#products">محصولات</a></li>
+                    <li><a href="#users">کاربران</a></li>
                 </ul>
             </aside>
 
@@ -86,11 +108,24 @@
                                 <th>وضعیت</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td>هدفون بی سیم X200</td><td>دیجیتال</td><td>2,850,000</td><td>24</td><td><span class="admin-badge badge-done">فعال</span></td></tr>
-                            <tr><td>تی شرت مردانه Simple</td><td>پوشاک</td><td>420,000</td><td>8</td><td><span class="admin-badge badge-progress">کم موجود</span></td></tr>
-                            <tr><td>کیف دوشی Urban</td><td>اکسسوری</td><td>1,190,000</td><td>0</td><td><span class="admin-badge badge-canceled">ناموجود</span></td></tr>
-                            <tr><td>اسپیکر قابل حمل Mini</td><td>دیجیتال</td><td>980,000</td><td>13</td><td><span class="admin-badge badge-done">فعال</span></td></tr>
+                        <tbody id="admin-product-body">
+                            <?php foreach ($p_result as $prod): ?>
+                                <?php if ($prod['stock'] >= 10) {
+                                        $status = "<td style='color: #00b315;'>موجود</td>";
+                                    }if ($prod['stock'] <= 5) {
+                                        $status = "<td style='color: #ff9900;'>رو به اتمام</td>";
+                                    }if ($prod['stock'] == 0) {
+                                        $status = "<td style='color: #ff0000;'>ناموجود</td>";
+                                    }
+                                ?>
+                                <tr>
+                                    <td><?= $prod['name'] ?></td>
+                                    <td><?= $prod['category'] ?></td>
+                                    <td><?= number_format($prod['price']) ?></td>
+                                    <td><?= $prod['stock'] ?></td>
+                                    <?= $status ?>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </section>
@@ -101,174 +136,52 @@
                             <tr>
                                 <th>نام کاربر</th>
                                 <th>نام کاربری</th>
+                                <th>ایمیل</th>
                                 <th>نقش فعلی</th>
                                 <th>عملیات</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-users-body"></tbody>
+                        <tbody id="admin-users-body">
+                            <?php foreach($u_result as $user): ?>
+                                <?php if($user['role'] == 0){
+                                    $role = "کاربر";
+                                }elseif ($user['role'] == 1) {
+                                    $role = "مدیر";
+                                }elseif ($user['role'] == 2) {
+                                    $role = "فروشنده";  
+                                }
+                                if ($user['role'] == 0) {
+                                    $rank = "promote-btn";
+                                }if ($user['role'] == 1) {
+                                    $rank = "demote-btn";
+                                }if ($user['role'] == 2) {
+                                    $rank = "demote-btn";
+                                }
+                            ?>
+                                <tr>
+                                    <td><?= $user['r_name'] ?></td>
+                                    <td><?= $user['u_name'] ?></td>
+                                    <td><?= $user['email'] ?></td>
+                                    <td><?= $role ?></td>
+                                    <td><span id="test" class="admin-user-btn <?= $rank ?>"><?php if($role == "مدیر"):?>
+                                        <?= "عزل به فروشنده" ?>
+                                    <?php elseif($role == "فروشنده"):?>
+                                        <?= "عزل به کاربر" ?>
+                                    <?php elseif($role == "کاربر"):?>
+                                        <?= "ارتقا به فروشنده" ?>
+                                    <?php endif ?>
+                                    </span></td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
                     </table>
                 </section>
-
-                <div class="admin-grid-2">
-                    <section class="admin-activity">
-                        <h3>فعالیت‌های اخیر</h3>
-                        <ul class="admin-timeline">
-                            <li>محصول جدید ثبت شد: ساعت هوشمند Z9 <span>امروز، 09:12</span></li>
-                            <li>سفارش #2402 تایید و به انبار ارسال شد <span>امروز، 10:25</span></li>
-                            <li>کاربر جدید ثبت نام کرد: مریم عزیزی <span>امروز، 11:03</span></li>
-                            <li>تیکت پشتیبانی #891 پاسخ داده شد <span>امروز، 11:40</span></li>
-                        </ul>
-                    </section>
-
-                    <section class="admin-form-wrap" id="add-product">
-                        <h3>افزودن محصول جدید</h3>
-                        <form class="admin-form">
-                            <input type="text" placeholder="نام محصول">
-                            <select>
-                                <option>انتخاب دسته بندی</option>
-                                <option>دیجیتال</option>
-                                <option>پوشاک</option>
-                                <option>اکسسوری</option>
-                            </select>
-                            <input type="number" placeholder="قیمت">
-                            <input type="number" placeholder="موجودی">
-                            <input type="file" id="admin-product-image" accept="image/*">
-                            <div class="admin-preview-actions">
-                                <button type="button" id="admin-show-preview" class="preview-btn" disabled>نمایش پیش‌نمایش</button>
-                                <button type="button" id="admin-cancel-page" class="cancel-btn">انصراف</button>
-                            </div>
-                            <img id="admin-image-preview" class="admin-image-preview" alt="preview">
-                            <textarea placeholder="توضیحات محصول"></textarea>
-                            <button type="button">ثبت محصول</button>
-                        </form>
-                    </section>
-                </div>
-            </section>
         </div>
     </main>
 
-    <script>
-        (function () {
-            var input = document.getElementById("admin-product-image");
-            var preview = document.getElementById("admin-image-preview");
-            var showBtn = document.getElementById("admin-show-preview");
-            var cancelBtn = document.getElementById("admin-cancel-page");
-            var previewData = "";
 
-            if (input && preview && showBtn && cancelBtn) {
-                input.addEventListener("change", function () {
-                    var file = input.files && input.files[0];
-                    if (!file) {
-                        previewData = "";
-                        preview.style.display = "none";
-                        preview.removeAttribute("src");
-                        showBtn.disabled = true;
-                        return;
-                    }
-
-                    if (!file.type.startsWith("image/")) {
-                        input.value = "";
-                        previewData = "";
-                        preview.style.display = "none";
-                        showBtn.disabled = true;
-                        return;
-                    }
-
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        previewData = event.target.result;
-                        preview.style.display = "none";
-                        preview.removeAttribute("src");
-                        showBtn.disabled = false;
-                    };
-                    reader.readAsDataURL(file);
-                });
-
-                showBtn.addEventListener("click", function () {
-                    if (!previewData) return;
-                    preview.src = previewData;
-                    preview.style.display = "block";
-                });
-
-                cancelBtn.addEventListener("click", function () {
-                    if (document.referrer) {
-                        window.history.back();
-                        return;
-                    }
-                    window.location.href = "../index.php";
-                });
-            }
-
-            var usersKey = "bakirz_admin_users";
-            var usersBody = document.getElementById("admin-users-body");
-
-            function getUsers() {
-                try {
-                    var saved = JSON.parse(localStorage.getItem(usersKey) || "[]");
-                    if (Array.isArray(saved) && saved.length) return saved;
-                } catch (e) { }
-
-                return [
-                    { id: 1, name: "علی محمدی", username: "ali.m", role: "customer" },
-                    { id: 2, name: "سارا نوری", username: "sara.n", role: "seller" },
-                    { id: 3, name: "نگار قاسمی", username: "negar.q", role: "customer" },
-                    { id: 4, name: "حامد صادقی", username: "hamed.s", role: "customer" }
-                ];
-            }
-
-            function saveUsers(users) {
-                localStorage.setItem(usersKey, JSON.stringify(users));
-            }
-
-            function roleLabel(role) {
-                return role === "seller" ? "فروشنده" : "کاربر عادی";
-            }
-
-            function renderUsers() {
-                if (!usersBody) return;
-                var users = getUsers();
-                usersBody.innerHTML = "";
-
-                users.forEach(function (user) {
-                    var tr = document.createElement("tr");
-                    var roleClass = user.role === "seller" ? "role-seller" : "role-customer";
-                    var actionHtml = user.role === "seller"
-                        ? '<button class="admin-user-btn demote-btn" data-id="' + user.id + '" data-action="demote">عزل از فروشنده</button>'
-                        : '<button class="admin-user-btn promote-btn" data-id="' + user.id + '" data-action="promote">ارتقا به فروشنده</button>';
-
-                    tr.innerHTML =
-                        "<td>" + user.name + "</td>" +
-                        "<td>" + user.username + "</td>" +
-                        '<td><span class="admin-user-role ' + roleClass + '">' + roleLabel(user.role) + "</span></td>" +
-                        '<td><div class="admin-user-actions">' + actionHtml + "</div></td>";
-                    usersBody.appendChild(tr);
-                });
-            }
-
-            if (usersBody) {
-                usersBody.addEventListener("click", function (event) {
-                    var btn = event.target.closest(".admin-user-btn");
-                    if (!btn) return;
-
-                    var id = Number(btn.getAttribute("data-id"));
-                    var action = btn.getAttribute("data-action");
-                    var users = getUsers();
-
-                    users = users.map(function (user) {
-                        if (user.id !== id) return user;
-                        if (action === "promote") user.role = "seller";
-                        if (action === "demote") user.role = "customer";
-                        return user;
-                    });
-
-                    saveUsers(users);
-                    renderUsers();
-                });
-            }
-
-            renderUsers();
-        })();
-    </script>
+    <script src="assets/js/jquery.main.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

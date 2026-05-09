@@ -18,7 +18,7 @@
             <div>
                 <input type="text" placeholder="نام کاربری" id="l-username">
                 <input type="password" placeholder="رمز عبور" id="l-password">
-                <a href="register.php"><strong>ایجاد حساب</strong></a><br>
+                <a href="register.php"><strong>ثبت نام حساب</strong></a><br>
                 <span class="error-msg"></span><br>
                 <button class="auth-btn" id="login-btn">ورود</button>
             </div>

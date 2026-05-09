@@ -14,7 +14,7 @@
 
     <div class="auth-container">
         <div class="auth-form active" id="login" method="POST" name="login">
-            <h2>ایجاد حساب</h2>
+            <h2>ثبت نام حساب</h2>
             <div id="register-form">
                 <input type="text" placeholder="نام کامل" id="realname">
                 <input type="text" placeholder="نام کاربری" id="r-username">

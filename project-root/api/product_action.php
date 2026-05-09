@@ -21,8 +21,8 @@ $p_price = $_POST['price'];
 $p_stock = $_POST['stock'];
 $p_description = $_POST['description'];
 
-$query = "INSERT INTO products (name, category, price, stock, img, description) 
-VALUE ('$p_name', '$p_category', '$p_price', '$p_stock', '$p_file', '$p_description')";
+$query = "INSERT INTO products (name, category, price, stock, img, description, status) 
+VALUE ('$p_name', '$p_category', '$p_price', '$p_stock', '$p_file', '$p_description', '1')";
 
 if($conn->query($query) === TRUE) {
     echo json_encode(['code' => 400]);
