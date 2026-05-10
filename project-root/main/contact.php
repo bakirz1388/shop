@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <title>تماس با ما</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logoBakiRZ.png">
+    <title>BackiRZ | Contact Us</title>
     <style>
         body {
-         font-family: Arial, sans-serif;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
          background-color: #f0f0f0;
         }
 
@@ -55,7 +56,7 @@
 </head>
 <body>
 
-<?php include('includes/header.php'); ?>
+<?php include('../includes/header.php'); ?>
 
 <main>
     <center>
@@ -69,7 +70,7 @@
     </center>
 </main>
 
-<?php include('includes/footer.php'); ?>
+<?php include('../includes/footer.php'); ?>
 
 </body>
 </html>

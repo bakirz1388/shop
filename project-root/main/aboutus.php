@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="assets/images/logoBakiRZ.png">
-  <title>BakiRZ | درباره ما</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/logoBakiRZ.png">
+  <title>BakiRZ | About Us</title>
   <style>
     * {
       margin: 0;
@@ -160,7 +160,7 @@
 </head>
 <body>
 
-<?php include("includes/header.php") ?>
+<?php include("../includes/header.php") ?>
 
 <main>
   <div class="about-container">
@@ -211,7 +211,7 @@
   </div>
 </main>
 
-<?php include("includes/footer.php") ?>
+<?php include("../includes/footer.php") ?>
 
 </body>
 </html>

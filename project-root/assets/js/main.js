@@ -5,7 +5,7 @@ const main = {};
 
 main.post = (action, data, func) => {
     $.ajax({
-        url: "api/" + action,
+        url: "../api/" + action,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -192,7 +192,7 @@ main.addProduct = () => {
 
 
     $.ajax({
-        url: "api/product_action.php",
+        url: "../api/product_action.php",
         method: "POST",
         data: formData,
         contentType: false,
@@ -207,23 +207,45 @@ main.addProduct = () => {
 
 main.addShopCart = () => {
 
+    // let $product = $(this).closest('.item');
 
-    let addCart = {
-        productId: $("#productId").val(),
-        productImg: $("#productImg").val(),
-        productName: $("#productName").val(),
-        productPrice: $("#productPrice").val()
-    }
 
-    main.post('cart.php', addCart, res => {
-        if (res.code == 502) {
-            console.log(1);
-            return;
+    let $item = $(this).closest('.item');
+    let id = $item.data('product-id');
+    let img = $item.find('.product-img-hidden').text().trim();
+    let name = $item.find('.product-name-hidden').text().trim();
+    let price = $item.find('.product-price-hidden').text().trim();
+
+
+    $.ajax({
+        url: '/shop/project-root/cart.php',
+        type: 'POST',
+        data: {
+            product_id: id,
+            product_img: img,
+            product_name: name,
+            product_price: price
+        },
+        success: function (response) {
+            console.log('پاسخ:', response);
+            alert(response);  // ببین پیام چی هست
+        },
+        error: function (xhr) {
+            console.log('خطا:', xhr.status, xhr.responseText);
+            alert('خطا: ' + xhr.status);
         }
-        if (res.code == 401) {
-            console.log(2);
-        }
-    })
+    });
+
+
+    // main.post('cart.php', addCart, res => {
+    //     if (res.code == 502) {
+    //         console.log(1);
+    //         return;
+    //     }
+    //     if (res.code == 401) {
+    //         console.log(2);
+    //     }
+    // })
 };
 
 $(() => {

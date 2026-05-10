@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="icon" href="assets/images/logoBakiRZ.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logoBakiRZ.png">
     <title>BakiRZ | Login</title>
 </head>
 <body>
-<?php include("includes/header.php") ?>
+<?php include("../includes/header.php") ?>
 
 <main class="auth-page">
 
@@ -30,10 +30,10 @@
 
 </main>
 
-<script src="assets/js/jquery.main.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="../assets/js/jquery.main.js"></script>
+<script src="../assets/js/main.js"></script>
 
-<?php include("includes/footer.php") ?>
+<?php include("../includes/footer.php") ?>
 
 </body>
 </html>

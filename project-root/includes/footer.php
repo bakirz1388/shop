@@ -11,10 +11,10 @@
             <div class="footer-col">
                 <h4>دسترسی سریع</h4>
                 <ul>
-                    <li><a href="index.php">خانه</a></li>
-                    <li><a href="shop.php">محصولات</a></li>
-                    <li><a href="aboutus.php">درباره ما</a></li>
-                    <li><a href="contact.php">تماس با ما</a></li>
+                    <li><a href="../main/index.php">خانه</a></li>
+                    <li><a href="../main/products.php">محصولات</a></li>
+                    <li><a href="../main/aboutus.php">درباره ما</a></li>
+                    <li><a href="../main/contact.php">تماس با ما</a></li>
                 </ul>
             </div>
 

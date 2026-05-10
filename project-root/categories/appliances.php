@@ -1,0 +1,60 @@
+<?php
+
+$conn = new mysqli("localhost","root","","shop_db");
+
+if($conn->connect_error){
+    die("connection failed: " . $conn->connect_error);
+}
+
+$products = "SELECT * FROM products WHERE `status`  > 0 AND `category` = 'Appliances'";
+
+$result = mysqli_query($conn,$products);
+$row = mysqli_fetch_array($result);
+
+$conn->close();
+?>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="../assets/images/logoBakiRZ.png">
+    <title>BakiRZ | Products</title>
+
+</head>
+<body>
+    <?php include("../includes/header.php") ?>
+    <?php include("../includes/category.php") ?>
+    <main>
+        <div class="margin-for-prod" style="margin-bottom: 15px;"></div>
+        <div class="toast" id="toast">✅ به سبد خرید اضافه شد</div>
+        <ul class="product-list">
+            <?php foreach($result as $prod): ?>
+                <li class="item" data-product-id="<?= $prod['id'] ?>">
+                    <div class="product-img-hidden" style="display:none;"><?= $prod['img'] ?></div>
+                    <div class="product-name-hidden" style="display:none;"><?= $prod['name'] ?></div>
+                    <div class="product-price-hidden" style="display:none;"><?= $prod['price'] ?></div>
+                    <div data-id="<?= $prod['id'] ?>"></div>
+                    <div class="picture">
+                        <img class="product-img" src="../assets/images/products/<?= $prod['img'] ?>.jpg">
+                    </div>
+                    <div class="product">
+                        <div class="product-name"><?= $prod['name'] ?></div>
+                        <div class="product-price">
+                            <b style="color: red;"><?= number_format($prod['price']); ?></b> تومان
+                        </div>
+                        <button class="auth-btn add-shop-cart">افزودن به سبد خرید</button>
+                    </div>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </main>
+
+    <?php include("../includes/footer.php") ?>
+
+
+    <script src="../assets/js/jquery.main.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

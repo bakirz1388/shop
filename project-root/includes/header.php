@@ -23,9 +23,9 @@ $isLoggedIn = false;
 
     if (isset($_SESSION['role'])) {
         if ($_SESSION['role'] == 1) {
-            $panel = "<li>|</li><li><a href='./admin.php' target='_blank'>پنل ادمین</a></li><li>|</li><li><a href='./seller.php' target='_blank'>پنل فروشنده</a></li>";
+            $panel = "<li>|</li><li><a href='../main/admin.php' target='_blank'>پنل ادمین</a></li><li>|</li><li><a href='../main/seller.php' target='_blank'>پنل فروشنده</a></li>";
         }elseif ($_SESSION['role'] == 2) {
-            $panel = "<li>|</li><li><a href='./seller.php' target='_blank'>پنل فروشنده</a></li>";
+            $panel = "<li>|</li><li><a href='../main/seller.php' target='_blank'>پنل فروشنده</a></li>";
         }else {
             $panel = "";
         }
@@ -41,11 +41,11 @@ $conn->close();
     <div class="top-bar">
         <div class="container">
             <div class="logo">
-                <a href="./index.php"><img src="./assets/images/logoBakiRZ.png" alt="logoBakiRZ" class="logo-img"> BakiRZ</a>
+                <a href="../main/index.php"><img src="../assets/images/logoBakiRZ.png" alt="logoBakiRZ" class="logo-img"> BakiRZ</a>
             </div>
 
             <div class="search-box">
-                <input type="text" placeholder="جستجو محصولات..." dir="rtl">
+                <input type="text" placeholder="جستجو محصولات... (کار نمیکند)" dir="rtl">
                 <button>🔍</button>
             </div>
 
@@ -53,9 +53,9 @@ $conn->close();
                 <?php if ($isLoggedIn): ?>
                     <div class="username-header"><a href="../api/logout.php" id="singout-btn">↪</a>  ! خوش آمدید <a href="./user-panel.php" target="_blank"><?= $username ?></a></div>
                 <?php else: ?>
-                    <a href="login.php" class="login-btn" target="_self">ورود | ثبت نام</a>
+                    <a href="../main/login.php" class="login-btn" target="_self">ورود | ثبت نام</a>
                 <?php endif ?>
-                <a href="./cart.php" target="_blank" class="cart-btn">
+                <a href="../main/cart.php" target="_blank" class="cart-btn">
                     🛒 <span class="cart-count">+10</span>
                 </a>
             </div>
@@ -65,13 +65,13 @@ $conn->close();
     <nav class="main-nav" dir="rtl">
         <div class="container">
             <ul>
-                <li><a href="./index.php">خانه</a></li>
+                <li><a href="../main/index.php">خانه</a></li>
                 <li>|</li>
-                <li><a href="./products.php">محصولات</a></li>
+                <li><a href="../main/products.php">محصولات</a></li>
                 <li>|</li>
-                <li><a href="#">پرفروش ترین محصولات</a></li>
+                <li><a href="#">محصولات تخفیفی %</a></li>
                 <li>|</li>
-                <li><a href="question.php">سوالی دارید؟</a></li>
+                <li><a href="../main/question.php">سوالی دارید؟</a></li>
                 <?php if(isset($panel))
                     echo($panel); ?>
             </ul>
