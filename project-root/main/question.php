@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -23,6 +25,7 @@
     }
 
     .question {
+        user-select: none;
         cursor: pointer;
         background: #f2f2f2;
         padding: 10px;

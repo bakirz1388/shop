@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -42,7 +44,7 @@
 
     /* هدر سبز داخل باکس */
     .about-header {
-      background: linear-gradient(135deg, #2c7a4d, #1e5a3a);
+      background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
       padding: 40px 30px;
       text-align: center;
       color: white;
@@ -165,14 +167,14 @@
 <main>
   <div class="about-container">
     <div class="about-header">
-      <h1>✨ درباره فروشگاه BakIRZ</h1>
+      <h1>✨ درباره فروشگاه BakiRZ</h1>
       <p>کیفیت، اعتماد، تجربه مدرن خرید آنلاین</p>
     </div>
 
     <div class="about-content">
       <div class="section">
         <h2>داستان ما</h2>
-        <p>فروشگاه آنلاین <strong>BakIRZ</strong> با هدف ارائه محصولات باکیفیت، قیمت منصفانه و تجربه خریدی لذت‌بخش شروع به کار کرد. ما به مشتری‌ها نه به عنوان یک تراکنش، بلکه به عنوان همراه همیشگی نگاه می‌کنیم.</p>
+        <p>فروشگاه آنلاین <strong>BakiRZ</strong> با هدف ارائه محصولات باکیفیت، قیمت منصفانه و تجربه خریدی لذت‌بخش شروع به کار کرد. ما به مشتری‌ها نه به عنوان یک تراکنش، بلکه به عنوان همراه همیشگی نگاه می‌کنیم.</p>
       </div>
 
       <div class="section">

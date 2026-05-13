@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 $conn = new mysqli("localhost","root","","shop_db");
 
@@ -28,14 +29,10 @@ $conn->close();
     <?php include("../includes/category.php") ?>
     <main>
         <div class="margin-for-prod" style="margin-bottom: 15px;"></div>
-        <div class="toast" id="toast">✅ به سبد خرید اضافه شد</div>
+        <div id="toast"></div>
         <ul class="product-list">
             <?php foreach($result as $prod): ?>
                 <li class="item" data-product-id="<?= $prod['id'] ?>">
-                    <div class="product-img-hidden" style="display:none;"><?= $prod['img'] ?></div>
-                    <div class="product-name-hidden" style="display:none;"><?= $prod['name'] ?></div>
-                    <div class="product-price-hidden" style="display:none;"><?= $prod['price'] ?></div>
-                    <div data-id="<?= $prod['id'] ?>"></div>
                     <div class="picture">
                         <img class="product-img" src="../assets/images/products/<?= $prod['img'] ?>.jpg">
                     </div>
@@ -44,7 +41,7 @@ $conn->close();
                         <div class="product-price">
                             <b style="color: red;"><?= number_format($prod['price']); ?></b> تومان
                         </div>
-                        <button class="auth-btn add-shop-cart">افزودن به سبد خرید</button>
+                        <button class="auth-btn add-shop-cart" data-id="<?= $prod['id'] ?>">افزودن به سبد خرید</button>
                     </div>
                 </li>
             <?php endforeach ?>

@@ -446,13 +446,15 @@ main {
     min-height: 20px;
 }
 
-.valid {
+section.valid {
     outline: none;
     border: 1px #17c500 solid;
     box-shadow: 0px 0px 24px 20px rgb(65 255 74 / 36%);
 }
 
-.invalid {
+input.invalid,
+textarea.invalid,
+select.invalid {
     outline: none;
     border: 1px red solid;
     box-shadow: 0px 0px 7px 0px red;
@@ -875,25 +877,36 @@ main {
     background-color: #111;
 }
 
-/* Toste */
-
 .toast {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #2c7a4d;
+    top: 160px;
+    right: 50px;
+    background-color: rgb(44, 44, 44);
+    border-radius: 10px;
+    min-width: 100px;
+    padding: 20px 30px;
     color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    display: none;
-    z-index: 999;
+    transform: translateY(-300px);
+    transition: all 400ms ease;
+}
+
+.toast.active {
+    transform: translateY(0);
+}
+
+.toast.invalid {
+    background-color: rgb(255, 0, 0);
+    color: rgb(0, 0, 0);
+}
+
+.toast.valid {
+    background-color: rgb(78, 212, 71);
+    color: rgb(0, 0, 0);
 }
 
 
+/*---------------home-------------------*/
 
-/*---------------------------------------/*
-
-/* تنظیمات عمومی صفحه خانه */
 .home-page {
     direction: rtl;
     font-family: 'Vazir', 'Tahoma', sans-serif;
@@ -902,7 +915,6 @@ main {
     padding: 20px;
 }
 
-/* بخش Hero */
 .hero {
     display: flex;
     align-items: center;
@@ -947,7 +959,6 @@ main {
     border-radius: 20px;
 }
 
-/* بخش محصولات */
 .section-header {
     text-align: center;
     margin: 40px 0 30px;
@@ -1015,7 +1026,6 @@ main {
     background: #2980b9;
 }
 
-/* بخش مزایا */
 .features {
     display: flex;
     justify-content: space-between;
@@ -1036,7 +1046,6 @@ main {
     font-size: 3rem;
 }
 
-/* بنر داخلی */
 .banner {
     background: url('../images/banner-bg.jpg') center/cover no-repeat;
     background-color: #2c3e50;
@@ -1058,7 +1067,6 @@ main {
     font-weight: bold;
 }
 
-/* ریسپانسیو */
 @media (max-width: 768px) {
     .hero {
         flex-direction: column;
@@ -1082,4 +1090,305 @@ main {
     .features {
         flex-direction: column;
     }
+}
+
+/*========== Cart ==========*/
+
+.pay {
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.final-btn {
+    margin: 8px 18px 0 0;
+    width: 20%;
+}
+
+.invoice-card {
+    margin-top: 50px;
+    justify-self: center;
+    direction: rtl;
+    max-width: 720px;
+    width: 30%;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* هدر - کمی پهن تر و مرتب */
+.invoice-header {
+    background: #2c3e50;
+    color: white;
+    padding: 20px 24px;
+    text-align: center;
+}
+
+.invoice-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.invoice-header p {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 8px;
+}
+
+/* بدنه - فاصله مناسب */
+.invoice-body {
+    padding: 24px 24px 20px 24px;
+}
+
+/* جدول محصولات - خواناتر */
+.items-table {
+
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items-table th {
+    text-align: right;
+    padding: 12px 8px;
+    border-bottom: 2px solid #e8e8e8;
+    color: #555;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.items-table td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.items-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ستون قیمت (چپ‌چین برای اعداد فارسی/انگلیسی) */
+.price-col {
+    text-align: left;
+    font-weight: 600;
+    direction: ltr;
+    font-size: 14px;
+    color: #1a5d3c;
+}
+
+.product-name {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* بخش جمع کل - با فاصله و خط چین مناسب */
+.total-section {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 2px dashed #ddd;
+    text-align: left;
+    direction: ltr;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.total-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+}
+
+.total-amount {
+    font-size: 26px;
+    font-weight: 800;
+    color: #c0392b;
+    letter-spacing: 1px;
+}
+
+.total-amount small {
+    font-size: 13px;
+    font-weight: normal;
+    color: #888;
+}
+
+/* دکمه خرید تهابی - با ابعاد بهتر */
+.buy-btn {
+    margin-top: 24px;
+    width: 100%;
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    color: white;
+    border: none;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.buy-btn:hover {
+    box-shadow: #009000 0px 5px 0 0px;
+    background: linear-gradient(90deg, #FF6B6B, #4ECDC4);
+    transform: translateY(-3px);
+}
+
+.buy-btn:active {
+    box-shadow: 0 0 0 0 black;
+    background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+    transform: translateY(1px);
+}
+
+/* فوتر - مرتب و خوانا */
+.invoice-footer {
+    background: #f8f9fa;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    border-top: 1px solid #eee;
+}
+
+/* نمایشگر موبایل - ابعاد منعطف */
+@media (max-width: 550px) {
+    body {
+        padding: 15px 12px;
+    }
+
+    .invoice-body {
+        padding: 16px;
+    }
+
+    .total-amount {
+        font-size: 20px;
+    }
+
+    .total-section {
+        justify-content: space-between;
+    }
+
+    .items-table th,
+    .items-table td {
+        padding: 8px 5px;
+        font-size: 12px;
+    }
+
+    .price-col {
+        font-size: 12px;
+    }
+
+    .buy-btn {
+        padding: 11px;
+        font-size: 14px;
+    }
+}
+
+/* نمایشگر خیلی کوچک */
+@media (max-width: 400px) {
+    .total-amount {
+        font-size: 18px;
+    }
+
+    .total-label {
+        font-size: 13px;
+    }
+}
+
+
+
+/* ===================User Panel=================== */
+
+.form-area {
+    margin-top: 30px;
+    direction: rtl;
+    justify-self: center;
+    width: 50%;
+    padding: 30px 35px;
+    border-radius: 50px;
+    background: white;
+    transition: 0.3s;
+}
+
+.form-title {
+    font-size: 25.6px;
+    font-weight: 600;
+    color: #2c5e2a;
+    border-right: 5px solid #e7b874;
+    padding-right: 16px;
+    margin-bottom: 28.8px;
+}
+
+.input-group {
+    text-align: center;
+    margin-bottom: 22.4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6.4px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #3e2d1d;
+    font-size: 14.4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.input-group input {
+    padding: 12.8px 16px;
+    border: 1px solid #e2cfbb;
+    border-radius: 20px;
+    font-family: inherit;
+    background: #fefcf8;
+    transition: 0.2s;
+    font-size: 15.2px;
+}
+
+.input-group input:focus {
+    outline: none;
+    border: 1.7px solid;
+    border-color: #4ECDC4;
+    box-shadow: 0 0 4px 1px #FF6B6B;
+    background: white;
+}
+
+.btn-save {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    border: none;
+    padding: 12.8px 28.8px;
+    border-radius: 40px;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 9.6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-save:hover {
+    background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+    transform: translateY(-2px);
+}
+
+.double-group {
+    align-items: baseline;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.double-group .input-group {
+    flex: 1;
 }

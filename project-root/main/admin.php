@@ -1,12 +1,15 @@
 ﻿<?php
 
+session_start();
+
 $conn = new mysqli("localhost","root","","shop_db");
 
 if($conn->connect_error){
     die("connection failed: " . $conn->connect_error);
 }
 
-$users = "SELECT * FROM users";
+$thisUserId = $_SESSION['user_id'];
+$users = "SELECT * FROM users WHERE user_id != $thisUserId";
 
 $u_result = mysqli_query($conn,$users);
 $u_row = mysqli_fetch_array($u_result);
@@ -17,7 +20,15 @@ $products = "SELECT * FROM products";
 $p_result = mysqli_query($conn,$products);
 $p_row = mysqli_fetch_array($p_result);
 
+
+
 $conn->close();
+
+$roles = [
+    0 => "کاربر",
+    1 => "مدیر",
+    2 => "فروشنده"
+]
 
 ?>
 
@@ -53,7 +64,7 @@ $conn->close();
             <section class="admin-content">
                 <div class="admin-header" id="dashboard">
                     <h1>داشبورد ادمین</h1>
-                    <p>نمای کلی وضعیت فروش، سفارش‌ها و فعالیت کاربران</p>
+                    <p>نمای کلی وضعیت فروش، محصول ها و کاربران</p>
                 </div>
 
                 <section class="admin-stats">
@@ -143,34 +154,18 @@ $conn->close();
                         </thead>
                         <tbody id="admin-users-body">
                             <?php foreach($u_result as $user): ?>
-                                <?php if($user['role'] == 0){
-                                    $role = "کاربر";
-                                }elseif ($user['role'] == 1) {
-                                    $role = "مدیر";
-                                }elseif ($user['role'] == 2) {
-                                    $role = "فروشنده";  
-                                }
-                                if ($user['role'] == 0) {
-                                    $rank = "promote-btn";
-                                }if ($user['role'] == 1) {
-                                    $rank = "demote-btn";
-                                }if ($user['role'] == 2) {
-                                    $rank = "demote-btn";
-                                }
-                            ?>
                                 <tr>
                                     <td><?= $user['r_name'] ?></td>
                                     <td><?= $user['u_name'] ?></td>
                                     <td><?= $user['email'] ?></td>
-                                    <td><?= $role ?></td>
-                                    <td><span id="test" class="admin-user-btn <?= $rank ?>"><?php if($role == "مدیر"):?>
-                                        <?= "عزل به فروشنده" ?>
-                                    <?php elseif($role == "فروشنده"):?>
-                                        <?= "عزل به کاربر" ?>
-                                    <?php elseif($role == "کاربر"):?>
-                                        <?= "ارتقا به فروشنده" ?>
+                                    <td><?= $roles[$user['role']] ?></td>
+                                    <?php if($user['role'] == 1): ?>
+                                        <td><button class="admin-user-btn demote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">عزل به فروشنده</button></td>
+                                    <?php elseif($user['role'] == 2): ?>
+                                    <td><button class="admin-user-btn demote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">عزل به کاربر</button></td>
+                                    <?php elseif($user['role'] == 0): ?>
+                                    <td><button class="admin-user-btn promote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">ارتقا به فروشنده</button></td>
                                     <?php endif ?>
-                                    </span></td>
                                 </tr>
                             <?php endforeach ?>
                         </tbody>
