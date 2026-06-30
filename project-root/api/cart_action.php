@@ -1,44 +1,26 @@
-<?php 
+<?php
 
-$ID = $_POST['id'];
+declare(strict_types=1);
 
-$conn = new mysqli("localhost","root","","shop_db");
+require_once __DIR__ . '/../includes/bootstrap.php';
+require_once __DIR__ . '/../includes/store.php';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
+requireApiLogin();
+
+$productId = (int) ($_POST['id'] ?? 0);
+if ($productId <= 0) {
+    jsonResponse(['code' => 422, 'message' => 'محصول نامعتبر است.'], 422);
 }
 
-$products = "SELECT * FROM products WHERE id = $ID LIMIT 1";
-
-$result = mysqli_query($conn,$products);
-$row = mysqli_fetch_array($result);
-$row = $row[0];
-
-session_start();
-
-if (isset($_SESSION['user_id'])) {
-    
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [$ID];
-    } else {
-        $cart = $_SESSION['cart'];
-        $cart[] = $ID;
-        $_SESSION['cart'] = $cart;
-    }
-    echo json_encode(["code" => "405"]);
-
-}else {
-    echo json_encode(["code" => "505"]);
-    return;
+$product = fetchProductById($productId);
+if (!$product || (int) $product['status'] <= 0) {
+    jsonResponse(['code' => 404, 'message' => 'محصول پیدا نشد.'], 404);
 }
 
+if ((int) $product['stock'] <= 0) {
+    jsonResponse(['code' => 409, 'message' => 'این محصول موجود نیست.'], 409);
+}
 
+addToCart($productId);
 
-    
-
-
-
-$conn->close();
-
-
-?>
+jsonResponse(['code' => 405, 'message' => 'محصول به سبد خرید اضافه شد.', 'cartCount' => count(getCart())]);

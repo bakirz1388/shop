@@ -1,8 +1,6 @@
 <?php
-session_start();
+
+require_once __DIR__ . '/../includes/bootstrap.php';
+
 session_destroy();
-
-
-header("Location: ../main/login.php");
-exit();
-?>
+redirect('../main/login.php');

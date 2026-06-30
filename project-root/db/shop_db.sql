@@ -79,7 +79,7 @@ CREATE TABLE `users` (
   `r_name` varchar(100) NOT NULL,
   `u_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `pass` varchar(100) NOT NULL,
+  `pass` varchar(255) NOT NULL,
   `role` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -114,7 +114,8 @@ ALTER TABLE `products`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `uq_users_username` (`u_name`);
 
 --
 -- AUTO_INCREMENT for dumped tables

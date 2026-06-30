@@ -1,27 +1,29 @@
-<?php 
+<?php
 
-$userId = $_POST['user_id'];
-$role = $_POST['role'];
+declare(strict_types=1);
 
-$changeTo = '';
-if($role == 0){
-    $changeTo = '2';
-} elseif($role == 1) {
-    $changeTo = '2';
-} elseif($role == 2) {
-    $changeTo = '0';
+require_once __DIR__ . '/../includes/bootstrap.php';
+
+$currentAdmin = requireApiRole([1]);
+$userId = (int) ($_POST['user_id'] ?? 0);
+$role = (int) ($_POST['role'] ?? -1);
+
+if ($userId <= 0 || !in_array($role, [0, 1, 2], true)) {
+    jsonResponse(['code' => 422, 'message' => 'درخواست نامعتبر است.'], 422);
 }
 
-$conn = new mysqli("localhost","root","","shop_db");
-
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
+if ($userId === $currentAdmin['user_id']) {
+    jsonResponse(['code' => 409, 'message' => 'نمی‌توانید نقش خودتان را تغییر دهید.'], 409);
 }
 
-$products = "UPDATE users SET `role` = $changeTo WHERE user_id = $userId";
+$changeTo = match ($role) {
+    0, 1 => 2,
+    2 => 0,
+};
 
-$result = mysqli_query($conn,$products);
-echo json_encode(["code" => "406"]);
+$stmt = db()->prepare('UPDATE users SET role = ? WHERE user_id = ?');
+$stmt->bind_param('ii', $changeTo, $userId);
+$stmt->execute();
+$stmt->close();
 
-
-?>
+jsonResponse(['code' => 406, 'message' => 'نقش کاربر به‌روزرسانی شد.']);

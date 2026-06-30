@@ -1,4 +1,13 @@
-<?php session_start(); ?>
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/bootstrap.php';
+
+if (isLoggedIn()) {
+    redirect('../main/index.php');
+}
+?>
 
 <!DOCTYPE html>
 <html lang="fa">
@@ -7,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logoBakiRZ.png">
-    <title>BakiRZ | Login</title>
+    <title>BakiRZ | Register</title>
 </head>
 <body>
 <?php include("../includes/header.php") ?>
@@ -25,7 +34,7 @@
                 <input type="password" placeholder="تکرار رمز عبور" id="repassword">
                 <a href="login.php"><b>ورود به حساب</b></a><br>
                 <span class="error-msg"></span><br>
-                <button class="auth-btn" id="register-btn">ایجاد</button>
+                <button class="auth-btn" id="register-btn">ایجاد حساب</button>
             </div>
         </div>
     </div>

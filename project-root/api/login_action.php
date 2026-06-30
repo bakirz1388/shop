@@ -1,38 +1,44 @@
 <?php
 
-$conn = new mysqli("localhost","root","","shop_db");
+declare(strict_types=1);
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
+require_once __DIR__ . '/../includes/bootstrap.php';
+
+$data = json_decode(file_get_contents('php://input'), true) ?? [];
+
+$username = trim((string) ($data['username'] ?? ''));
+$password = (string) ($data['password'] ?? '');
+
+if ($username === '' || $password === '') {
+    jsonResponse(['code' => 422, 'message' => 'نام کاربری و رمز عبور الزامی است.'], 422);
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+$stmt = db()->prepare('SELECT user_id, r_name, u_name, email, pass, role FROM users WHERE u_name = ? LIMIT 1');
+$stmt->bind_param('s', $username);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
+$stmt->close();
 
-$uname = $data['username'];
-$pass = $data['password'];
-
-$query = "SELECT * FROM users WHERE u_name='$uname' AND pass='$pass'";
-
-$result = mysqli_query($conn,$query);
-$row = mysqli_fetch_array($result);
-
-if($row) {
-    loginSuccess($row);
-} else {
-    echo json_encode(['code' => 502]);
+if (!$user) {
+    jsonResponse(['code' => 502, 'message' => 'نام کاربری یا رمز عبور اشتباه است.'], 401);
 }
 
-function loginSuccess($res) {
-    session_start();
-    $_SESSION['user_id'] = $res['user_id'];
-    $_SESSION['r_name'] = $res['r_name'];
-    $_SESSION['u_name'] = $res['u_name'];
-    $_SESSION['email'] = $res['email'];
-    $_SESSION['role'] = $res['role'];
+$storedPassword = (string) $user['pass'];
+$passwordMatches = password_verify($password, $storedPassword) || hash_equals($storedPassword, $password);
 
-    echo json_encode(['code' => 401]);
+if (!$passwordMatches) {
+    jsonResponse(['code' => 502, 'message' => 'نام کاربری یا رمز عبور اشتباه است.'], 401);
 }
 
-$conn->close();
+if (!password_get_info($storedPassword)['algo']) {
+    $newHash = password_hash($password, PASSWORD_DEFAULT);
+    $updateStmt = db()->prepare('UPDATE users SET pass = ? WHERE user_id = ?');
+    $updateStmt->bind_param('si', $newHash, $user['user_id']);
+    $updateStmt->execute();
+    $updateStmt->close();
+    $user['pass'] = $newHash;
+}
 
-?>
+setAuthenticatedUser($user);
+
+jsonResponse(['code' => 401, 'message' => 'ورود با موفقیت انجام شد.']);

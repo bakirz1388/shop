@@ -5,7 +5,7 @@
 
             <div class="footer-col">
                 <h3 style="color:#FF6B6B;">BakiRZ</h3>
-                <p>فروشگاه آنلاین برای همه 😊</p>
+                <p>فروشگاه آنلاین برای تجربه خرید ساده و سریع</p>
             </div>
 
             <div class="footer-col">
@@ -20,7 +20,7 @@
 
             <div class="footer-col">
                 <h4>ارتباط با ما</h4>
-                <p>ایمیل: info@shopfun.com</p>
+                <p>ایمیل: info@bakirz.local</p>
                 <p>تلفن: 09123456789</p>
             </div>
 
@@ -28,7 +28,7 @@
     </div>
 
     <div class="footer-bottom" dir="ltr">
-        © 2026 - 2026 | BakiRZ .تمامی حقوق محفوظ است
+        © 2026 BakiRZ. All rights reserved.
     </div>
 
 </footer>

@@ -1,44 +1,18 @@
 <?php
-$cartQty = [];
-if (isset($_SESSION['cart'])) {
-    $cartQty = $_SESSION['cart'];
-}
 
+require_once __DIR__ . '/bootstrap.php';
 
-$conn = new mysqli("localhost","root","","shop_db");
+$cartQty = getCart();
+$user = currentUser();
+$panel = '';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
-}
-
-$role = "SELECT * FROM users";
-
-$r_result = mysqli_query($conn,$role);
-$r_row = mysqli_fetch_array($r_result);
-
-
-
-if (isset($_SESSION['u_name'])) {
-    $username = $_SESSION['u_name'];
-}
-$isLoggedIn = false;
-if (isset($username))
-    $isLoggedIn = true;
-
-if (isset($_SESSION['role'])) {
-    if ($_SESSION['role'] == 1) {
+if ($user !== null) {
+    if ($user['role'] === 1) {
         $panel = "<li>|</li><li><a href='../main/admin.php' target='_blank'>پنل ادمین</a></li><li>|</li><li><a href='../main/seller.php' target='_blank'>پنل فروشنده</a></li>";
-    }elseif ($_SESSION['role'] == 2) {
+    } elseif ($user['role'] === 2) {
         $panel = "<li>|</li><li><a href='../main/seller.php' target='_blank'>پنل فروشنده</a></li>";
-    }else {
-        $panel = "";
     }
 }
-
-$conn->close();
-
-
-
 ?>
 
 <header class="main-header">
@@ -49,13 +23,13 @@ $conn->close();
             </div>
 
             <div class="search-box">
-                <input type="text" placeholder="جستجو محصولات... (کار نمیکند)" dir="rtl">
-                <button>🔍</button>
+                <input type="text" placeholder="جستجو محصولات..." dir="rtl" disabled>
+                <button type="button" aria-label="search">🔍</button>
             </div>
 
             <div class="header-actions">
-                <?php if ($isLoggedIn): ?>
-                    <div class="username-header"><a href="../api/logout.php" id="singout-btn">↪</a>  ! خوش آمدید <a href="./user-panel.php" target="_blank"><?= $username ?></a></div>
+                <?php if ($user !== null): ?>
+                    <div class="username-header"><a href="../api/logout.php" id="singout-btn">↪</a> خوش آمدید <a href="./user-panel.php" target="_blank"><?= h($user['u_name']) ?></a></div>
                 <?php else: ?>
                     <a href="../main/login.php" class="login-btn" target="_self">ورود | ثبت نام</a>
                 <?php endif ?>
@@ -76,8 +50,7 @@ $conn->close();
                 <li><a href="../main/aboutus.php">درباره ما</a></li>
                 <li>|</li>
                 <li><a href="../main/question.php">سوالی دارید؟</a></li>
-                <?php if(isset($panel))
-                    echo($panel); ?>
+                <?= $panel ?>
             </ul>
         </div>
     </nav>

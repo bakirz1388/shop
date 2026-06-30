@@ -1,35 +1,14 @@
-﻿<?php
+<?php
 
-session_start();
+declare(strict_types=1);
 
-$conn = new mysqli("localhost","root","","shop_db");
+require_once __DIR__ . '/../includes/store.php';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
-}
-
-$thisUserId = $_SESSION['user_id'];
-$users = "SELECT * FROM users WHERE user_id != $thisUserId";
-
-$u_result = mysqli_query($conn,$users);
-$u_row = mysqli_fetch_array($u_result);
-
-
-$products = "SELECT * FROM products";
-
-$p_result = mysqli_query($conn,$products);
-$p_row = mysqli_fetch_array($p_result);
-
-
-
-$conn->close();
-
-$roles = [
-    0 => "کاربر",
-    1 => "مدیر",
-    2 => "فروشنده"
-]
-
+$currentUser = requireRole([1]);
+$users = fetchUsersExcept($currentUser['user_id']);
+$products = fetchProducts(null, false);
+$stats = getDashboardStats();
+$orders = fetchOrdersForAdmin();
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +29,7 @@ $roles = [
             <aside class="admin-sidebar">
                 <div class="admin-profile">
                     <h2>پنل مدیریت</h2>
-                    <p>مدیر کل فروشگاه BakiRZ</p>
+                    <p>مدیریت فروشگاه BakiRZ</p>
                 </div>
 
                 <ul class="admin-menu">
@@ -64,25 +43,25 @@ $roles = [
             <section class="admin-content">
                 <div class="admin-header" id="dashboard">
                     <h1>داشبورد ادمین</h1>
-                    <p>نمای کلی وضعیت فروش، محصول ها و کاربران</p>
+                    <p>نمای کلی وضعیت فروش، محصول‌ها و کاربران</p>
                 </div>
 
                 <section class="admin-stats">
                     <article class="admin-stat-card">
                         <span class="admin-stat-title">کل سفارش‌ها</span>
-                        <strong class="admin-stat-value">1,284</strong>
+                        <strong class="admin-stat-value"><?= number_format($stats['orders']) ?></strong>
                     </article>
                     <article class="admin-stat-card">
-                        <span class="admin-stat-title">درآمد امروز</span>
-                        <strong class="admin-stat-value">14.8M</strong>
+                        <span class="admin-stat-title">مجموع فروش</span>
+                        <strong class="admin-stat-value"><?= number_format($stats['revenue']) ?></strong>
                     </article>
                     <article class="admin-stat-card">
-                        <span class="admin-stat-title">کاربران جدید</span>
-                        <strong class="admin-stat-value">43</strong>
+                        <span class="admin-stat-title">تعداد کاربران</span>
+                        <strong class="admin-stat-value"><?= number_format($stats['users']) ?></strong>
                     </article>
                     <article class="admin-stat-card">
                         <span class="admin-stat-title">موجودی کم</span>
-                        <strong class="admin-stat-value">7</strong>
+                        <strong class="admin-stat-value"><?= number_format($stats['low_stock']) ?></strong>
                     </article>
                 </section>
 
@@ -90,20 +69,23 @@ $roles = [
                     <section class="admin-section">
                         <h3>آخرین سفارش‌ها</h3>
                         <ul class="admin-list">
-                            <li><span>#2401 - علی محمدی</span><span class="admin-badge badge-done">تحویل شده</span></li>
-                            <li><span>#2402 - سارا نوری</span><span class="admin-badge badge-progress">در حال ارسال</span></li>
-                            <li><span>#2403 - حامد صادقی</span><span class="admin-badge badge-canceled">لغو شده</span></li>
-                            <li><span>#2404 - نگار قاسمی</span><span class="admin-badge badge-progress">آماده سازی</span></li>
+                            <?php if ($orders === []): ?>
+                                <li><span>هنوز سفارشی ثبت نشده است</span><span class="admin-badge badge-progress">خالی</span></li>
+                            <?php else: ?>
+                                <?php foreach ($orders as $order): ?>
+                                    <li><span>#<?= $order['id'] ?> - <?= h($order['r_name']) ?> / <?= h($order['product_name']) ?></span><span class="admin-badge badge-progress"><?= ORDER_STATUS_LABELS[(int) $order['status']] ?? 'نامشخص' ?></span></li>
+                                <?php endforeach ?>
+                            <?php endif ?>
                         </ul>
                     </section>
 
                     <section class="admin-section" id="messages">
-                        <h3>پیام‌های جدید کاربران</h3>
+                        <h3>یادداشت‌های پنل</h3>
                         <ul class="admin-list">
-                            <li><span>پیگیری سفارش #2398</span><span>2 دقیقه پیش</span></li>
-                            <li><span>سوال درباره هزینه ارسال</span><span>18 دقیقه پیش</span></li>
-                            <li><span>درخواست مرجوعی کالا</span><span>46 دقیقه پیش</span></li>
-                            <li><span>مشکل در پرداخت آنلاین</span><span>1 ساعت پیش</span></li>
+                            <li><span>ثبت سفارش‌ها به‌صورت عملیاتی فعال شد.</span><span>جدید</span></li>
+                            <li><span>نقش‌ها فقط توسط ادمین تغییر می‌کنند.</span><span>امنیت</span></li>
+                            <li><span>برای فرم تماس و تیکت هنوز توسعه لازم است.</span><span>بعدی</span></li>
+                            <li><span>در صورت نیاز می‌شود وضعیت سفارش هم اضافه کرد.</span><span>قابل توسعه</span></li>
                         </ul>
                     </section>
                 </div>
@@ -120,20 +102,21 @@ $roles = [
                             </tr>
                         </thead>
                         <tbody id="admin-product-body">
-                            <?php foreach ($p_result as $prod): ?>
-                                <?php if ($prod['stock'] >= 10) {
-                                        $status = "<td style='color: #00b315;'>موجود</td>";
-                                    }if ($prod['stock'] <= 5) {
-                                        $status = "<td style='color: #ff9900;'>رو به اتمام</td>";
-                                    }if ($prod['stock'] == 0) {
-                                        $status = "<td style='color: #ff0000;'>ناموجود</td>";
-                                    }
+                            <?php foreach ($products as $prod): ?>
+                                <?php
+                                if ((int) $prod['stock'] >= 10) {
+                                    $status = "<td style='color: #00b315;'>موجود</td>";
+                                } elseif ((int) $prod['stock'] >= 1) {
+                                    $status = "<td style='color: #ff9900;'>رو به اتمام</td>";
+                                } else {
+                                    $status = "<td style='color: #ff0000;'>ناموجود</td>";
+                                }
                                 ?>
                                 <tr>
-                                    <td><?= $prod['name'] ?></td>
-                                    <td><?= $prod['category'] ?></td>
-                                    <td><?= number_format($prod['price']) ?></td>
-                                    <td><?= $prod['stock'] ?></td>
+                                    <td><?= h($prod['name']) ?></td>
+                                    <td><?= h($prod['category']) ?></td>
+                                    <td><?= number_format((int) $prod['price']) ?></td>
+                                    <td><?= (int) $prod['stock'] ?></td>
                                     <?= $status ?>
                                 </tr>
                             <?php endforeach ?>
@@ -153,18 +136,18 @@ $roles = [
                             </tr>
                         </thead>
                         <tbody id="admin-users-body">
-                            <?php foreach($u_result as $user): ?>
+                            <?php foreach ($users as $user): ?>
                                 <tr>
-                                    <td><?= $user['r_name'] ?></td>
-                                    <td><?= $user['u_name'] ?></td>
-                                    <td><?= $user['email'] ?></td>
-                                    <td><?= $roles[$user['role']] ?></td>
-                                    <?php if($user['role'] == 1): ?>
+                                    <td><?= h($user['r_name']) ?></td>
+                                    <td><?= h($user['u_name']) ?></td>
+                                    <td><?= h($user['email']) ?></td>
+                                    <td><?= ROLE_LABELS[(int) $user['role']] ?? 'نامشخص' ?></td>
+                                    <?php if ((int) $user['role'] === 1): ?>
                                         <td><button class="admin-user-btn demote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">عزل به فروشنده</button></td>
-                                    <?php elseif($user['role'] == 2): ?>
-                                    <td><button class="admin-user-btn demote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">عزل به کاربر</button></td>
-                                    <?php elseif($user['role'] == 0): ?>
-                                    <td><button class="admin-user-btn promote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">ارتقا به فروشنده</button></td>
+                                    <?php elseif ((int) $user['role'] === 2): ?>
+                                        <td><button class="admin-user-btn demote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">عزل به کاربر</button></td>
+                                    <?php else: ?>
+                                        <td><button class="admin-user-btn promote-btn" data-id="<?= $user['user_id'] ?>" data-role="<?= $user['role'] ?>">ارتقا به فروشنده</button></td>
                                     <?php endif ?>
                                 </tr>
                             <?php endforeach ?>

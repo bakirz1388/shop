@@ -1,56 +1,53 @@
 <?php
-session_start();
 
-$userID = $_SESSION['user_id'];
-$userID2 = $_SESSION['u_name'];
+declare(strict_types=1);
 
-$conn = new mysqli("localhost","root","","shop_db");
+require_once __DIR__ . '/../includes/bootstrap.php';
+require_once __DIR__ . '/../includes/store.php';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
+$user = requireApiLogin();
+$data = json_decode(file_get_contents('php://input'), true) ?? [];
+
+$realname = trim((string) ($data['realname'] ?? ''));
+$username = trim((string) ($data['username'] ?? ''));
+$email = trim((string) ($data['email'] ?? ''));
+$password = (string) ($data['password'] ?? '');
+
+if ($realname === '' || $username === '' || $email === '') {
+    jsonResponse(['code' => 422, 'message' => 'فیلدها نباید خالی باشند.'], 422);
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    jsonResponse(['code' => 422, 'message' => 'ایمیل معتبر نیست.'], 422);
+}
 
-$rname = $data['realname'];
-$uname = $data['username'];
-$email = $data['email'];
-$pass = $data['password'];
+$currentRecord = fetchUserById($user['user_id']);
+if (!$currentRecord) {
+    jsonResponse(['code' => 404, 'message' => 'کاربر پیدا نشد.'], 404);
+}
 
-$oldPass = "SELECT * FROM users WHERE user_id = $userID";
-$oldPassRes = mysqli_query($conn,$oldPass);
-$oldPassRow = mysqli_fetch_array($oldPassRes);
+if ($user['u_name'] !== $username) {
+    $checkStmt = db()->prepare('SELECT user_id FROM users WHERE u_name = ? LIMIT 1');
+    $checkStmt->bind_param('s', $username);
+    $checkStmt->execute();
+    $exists = $checkStmt->get_result()->fetch_assoc();
+    $checkStmt->close();
 
-
-if ($userID2 != $uname) {
-    $ucheck = "SELECT * FROM users WHERE u_name = '$uname'";
-    $result = $conn->query($ucheck);
-
-    if($result->num_rows > 0){
-        echo json_encode(["code" => "508"]);
-        return;
+    if ($exists) {
+        jsonResponse(['code' => 508, 'message' => 'این نام کاربری تکراری است.'], 409);
     }
 }
 
-if ($pass == "") {
-    $pass = $oldPassRow['pass'];
+$finalPassword = $currentRecord['pass'];
+if ($password !== '') {
+    $finalPassword = password_hash($password, PASSWORD_DEFAULT);
 }
 
-$query = "UPDATE users 
-    SET r_name = '$rname', 
-        u_name = '$uname',
-        email = '$email',
-        pass = '$pass'
-    WHERE user_id = $userID";
+$stmt = db()->prepare('UPDATE users SET r_name = ?, u_name = ?, email = ?, pass = ? WHERE user_id = ?');
+$stmt->bind_param('ssssi', $realname, $username, $email, $finalPassword, $user['user_id']);
+$stmt->execute();
+$stmt->close();
 
-    if($conn->query($query) === TRUE) {
-        echo json_encode(['code' => 400]);
-    } else {
-        echo json_encode(['code' => 501]);
-    }
+syncCurrentUserSession($user['user_id']);
 
-
-$conn->close();
-
-
-?>
+jsonResponse(['code' => 400, 'message' => 'اطلاعات کاربری به‌روزرسانی شد.']);

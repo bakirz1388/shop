@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/bootstrap.php';
+?>
 
 <!DOCTYPE html>
 <html lang="fa">
@@ -7,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logoBakiRZ.png">
-    <title>BakiRZ | Home</title>
+    <title>BakiRZ | FAQ</title>
 
     <style>
     body {
@@ -75,73 +80,33 @@
 <center>
 <h2>سوالات متداول</h2>
 
-<div class="question">چگونه ثبت نام کنیم ؟</div>
+<div class="question">چگونه ثبت نام کنیم؟</div>
 <div class="answer">
-    <p>
-        در بالای صفحه گزینه ثبت نام را کلیک کنید و مشخصات خود را وارد کنید.
-    </p>
+    <p>از صفحه ورود، روی لینک ثبت نام بزنید و اطلاعات حساب را وارد کنید.</p>
 </div>
 
-<div class="question">چگونه سفارش ثبت کنیم ؟</div>
+<div class="question">چگونه سفارش ثبت کنیم؟</div>
 <div class="answer">
-    <p>
-        ابتدا محصول مورد نظر را به سبد خرید اضافه کرده و پس از پرداخت هزینه سفارش شما ثبت میشود .
-    </p>
+    <p>محصول را به سبد خرید اضافه کنید و بعد از بررسی فاکتور، روی خرید نهایی بزنید.</p>
 </div>
 
-<div class="question">چقدر طول می‌کشد سفارش برسد ؟</div>
+<div class="question">اگر موجودی تمام شود چه می‌شود؟</div>
 <div class="answer">
-    <p>
-        این عمل بسته به ترافیک های سفارش و مسیر دارد و نهایت امکان دارد
-        <span>با 2 روز تاخیر</span>
-        به دست شما برسد.
-    </p>
+    <p>سیستم هنگام خرید نهایی موجودی را دوباره بررسی می‌کند و اگر کالا تمام شده باشد ثبت سفارش انجام نمی‌شود.</p>
 </div>
 
-<div class="question"> چگونه عمل پرداخت را انجام بدم ؟ </div>
+<div class="question">چگونه با پشتیبانی تماس بگیریم؟</div>
 <div class="answer">
-    <p>
-        پس از افزودن به سبد خرید از طریق درگاه بانکی میتوانید عمل پرداخت را انجام دهید .
-    </p>
+    <p>از صفحه تماس با ما می‌توانید با تلفن، ایمیل یا لینک واتساپ ارتباط بگیرید.</p>
 </div>
 
-<div class="question"> هزینه ارسال در چه حدودی است ؟ </div>
+<div class="question">آیا امکان توسعه بیشتر سایت وجود دارد؟</div>
 <div class="answer">
-    <p>
-        هزینه ارسال بستگی به روز انتخابی شما دارد و اگر عجله ای در سفارش دارید حدود
-        <span>100.000تومان</span>
-        هزینه ارسال در نظر گرفته شده است.
-    </p>
-</div>
-
-<div class="question"> پس از ثبت سفارش میتوانیم سفارش را لغو کنیم ؟ </div>
-<div class="answer">
-    <p>
-        بله شما میتوانید تا
-        <span>24 ساعت</span>
-        پس از ثبت سفارش آن را لغو کنید.
-    </p>
-</div>
-
-<div class="question"> چگونه با پشتیبان تماس بگیرم ؟ </div>
-<div class="answer">
-    <p>
-        شما میتوانید با شماره گیری 09123456789 با پشتیبان این مجموعه در ارتباط باشید.
-    </p>
-</div>
-
-<div class="question">امکان مرجوعی وجود دارد ؟</div>
-<div class="answer">
-    <p>
-        بله شما میتوانید محصول را تا 2روز پس از رسیدن محصول به دستتان
-        <span>در صورت سالم بودن</span>
-        به ما برگردانید
-    </p>
+    <p>بله. ساختار فعلی برای اضافه شدن جستجو، فیلتر، گزارش سفارش و پنل‌های کامل‌تر آماده‌تر شده است.</p>
 </div>
 </center>
 
 <script>
-
     var q = document.querySelectorAll(".question");
     q.forEach(item => {
         item.addEventListener("click", () => {

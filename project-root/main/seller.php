@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/bootstrap.php';
+
+requireRole([1, 2]);
+?>
+<!DOCTYPE html>
 <html lang="fa">
 
 <head>
@@ -28,8 +36,8 @@
                     </select>
                     <input type="number" id="product-price" placeholder="قیمت (تومان)">
                     <input type="number" id="product-stock" placeholder="موجودی">
-                    <input type="file" id="product-image" accept="image/*jpg">
-                    <strong style="color:red;">  برای بهتر دیده شدن عکس ها در بخش محصولات، بهتر است که اندازه فایل ( 1x1 ) باشد</strong>
+                    <input type="file" id="product-image" accept=".jpg,.jpeg,.png,.webp">
+                    <strong style="color:red;">برای بهتر دیده شدن تصاویر، نسبت نزدیک به مربع مناسب‌تر است.</strong>
                     <textarea id="product-description" placeholder="توضیحات کوتاه محصول"></textarea>
                     <span class="error-msg"></span><br>
                     <button id="submit-product">افزودن محصول</button><br>

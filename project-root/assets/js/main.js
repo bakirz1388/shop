@@ -1,366 +1,282 @@
 const main = {};
 
-// **=========== register check ============**
-
-
-main.post = (action, data, func) => {
+main.post = (action, data, onSuccess, onError) => {
     $.ajax({
         url: "../api/" + action,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(data),
         dataType: "json",
-        success: res => {
-            func(res);
+        success: res => onSuccess(res),
+        error: xhr => {
+            const response = xhr.responseJSON || { message: "خطای غیرمنتظره رخ داد." };
+            if (onError) {
+                onError(response, xhr.status);
+                return;
+            }
+            main.TOAST(response.message || "خطای غیرمنتظره رخ داد.", "invalid");
         }
     });
-}
-main.post1 = (action, data, func) => {
+};
+
+main.postForm = (action, data, onSuccess, onError) => {
     $.ajax({
         url: "../api/" + action,
         type: "POST",
         data: data,
-        success: res => {
-            func(JSON.parse(res));
+        dataType: "json",
+        success: res => onSuccess(res),
+        error: xhr => {
+            const response = xhr.responseJSON || { message: "خطای غیرمنتظره رخ داد." };
+            if (onError) {
+                onError(response, xhr.status);
+                return;
+            }
+            main.TOAST(response.message || "خطای غیرمنتظره رخ داد.", "invalid");
         }
     });
-}
-
-
-
-main.register = () => {
-
-    $(".error-msg").text("");
-    $(".invalid").removeClass("invalid");
-
-
-    if ($("#realname").val() == "") {
-        $(".error-msg").text("نام کامل خود را بنویسید");
-        $("#realname").addClass("invalid");
-        return;
-    };
-    if ($("#r-username").val() == "") {
-        $(".error-msg").text("نام کاربری خود را بنویسید");
-        $("#r-username").addClass("invalid");
-        return;
-    };
-    if ($("#email").val() == "") {
-        $(".error-msg").text("ایمیل خود را بنویسید");
-        $("#email").addClass("invalid");
-        return;
-    };
-
-    let emailSplit = ($("#email").val()).split("@");
-    if (emailSplit.length != 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.').length != 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.')[0].length < 3) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.')[1].length < 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email").addClass("invalid");
-        return;
-    };
-
-    if ($("#r-password").val() == "") {
-        $(".error-msg").text("پسورد خود را بنویسید");
-        $("#r-password").addClass("invalid");
-        return;
-    };
-    if ($("#repassword").val() == "") {
-        $(".error-msg").text("پسورد خود را برای تایید بنویسید");
-        $("#re-password").addClass("invalid");
-        return;
-    };
-
-    if ($("#r-password").val() != $("#repassword").val()) {
-        $(".error-msg").text("تایید پسورد شباهت ندارد");
-        $("#repassword").addClass("invalid");
-        return;
-    };
-
-    let data = {
-        realname: $("#realname").val(),
-        username: $("#r-username").val(),
-        email: $("#email").val(),
-        password: $("#r-password").val(),
-        role: 0
-    }
-
-    main.post('register_action.php', data, res => {
-        if (res.code == 500) {
-            $("#r-username").addClass("invalid");
-            $(".error-msg").text("این نام کاربری تکراری است");
-            return;
-        }
-        if (res.code == 501) {
-            $(".error-msg").text("An error occured while registering!");
-            return;
-        }
-        if (res.code == 400) {
-            location.href = 'login.php';
-        }
-    })
-
 };
 
-// **=========== login check ============**
+main.setError = (message, selector) => {
+    $(".error-msg").text(message);
+    if (selector) {
+        $(selector).addClass("invalid");
+    }
+};
 
-main.login = () => {
-
+main.register = () => {
     $(".error-msg").text("");
     $(".invalid").removeClass("invalid");
 
-    if ($("#l-username").val() == "") {
-        $(".error-msg").text("نام کاربری خود را بنویسید");
-        $("#l-username").addClass("invalid");
+    if ($("#realname").val() === "") {
+        main.setError("نام کامل خود را بنویسید", "#realname");
         return;
-    };
-    if ($("#l-password").val() == "") {
-        $(".error-msg").text("پسورد خود را بنویسید");
-        $("#l-password").addClass("invalid");
+    }
+    if ($("#r-username").val() === "") {
+        main.setError("نام کاربری خود را بنویسید", "#r-username");
         return;
-    };
-
-    let LoginData = {
-        username: $("#l-username").val(),
-        password: $("#l-password").val(),
+    }
+    if ($("#email").val() === "") {
+        main.setError("ایمیل خود را بنویسید", "#email");
+        return;
+    }
+    if ($("#r-password").val() === "") {
+        main.setError("رمز عبور خود را بنویسید", "#r-password");
+        return;
+    }
+    if ($("#repassword").val() === "") {
+        main.setError("تکرار رمز عبور را بنویسید", "#repassword");
+        return;
+    }
+    if ($("#r-password").val() !== $("#repassword").val()) {
+        main.setError("تکرار رمز عبور با رمز عبور یکی نیست", "#repassword");
+        return;
     }
 
-    main.post('login_action.php', LoginData, res => {
-        if (res.code == 502) {
-            $("#l-username").addClass("invalid");
-            $("#l-password").addClass("invalid");
-            $(".error-msg").text("نام کاربری یا پسورد یافت نشد");
-            return;
-        }
-        if (res.code == 401) {
-            location.href = 'index.php';
+    const data = {
+        realname: $("#realname").val().trim(),
+        username: $("#r-username").val().trim(),
+        email: $("#email").val().trim(),
+        password: $("#r-password").val()
+    };
 
+    main.post("register_action.php", data, res => {
+        if (res.code === 400) {
+            location.href = "login.php";
         }
-    })
-}
+    }, res => {
+        main.setError(res.message || "ثبت نام انجام نشد", "#r-username");
+    });
+};
+
+main.login = () => {
+    $(".error-msg").text("");
+    $(".invalid").removeClass("invalid");
+
+    if ($("#l-username").val() === "") {
+        main.setError("نام کاربری خود را بنویسید", "#l-username");
+        return;
+    }
+    if ($("#l-password").val() === "") {
+        main.setError("رمز عبور خود را بنویسید", "#l-password");
+        return;
+    }
+
+    const data = {
+        username: $("#l-username").val().trim(),
+        password: $("#l-password").val()
+    };
+
+    main.post("login_action.php", data, res => {
+        if (res.code === 401) {
+            location.href = "index.php";
+        }
+    }, res => {
+        $("#l-username, #l-password").addClass("invalid");
+        main.setError(res.message || "ورود انجام نشد");
+    });
+};
 
 main.addProduct = () => {
-    $(".error-msg").text("");
-    $('.invalid').removeClass('invalid');
+    $(".error-msg").text("").removeClass("success-msg");
+    $(".invalid").removeClass("invalid");
 
-
-    if ($('#product-name').val() == "") {
-        $(".error-msg").text("نام محصول الزامی است");
-        $('#product-name').addClass('invalid');
+    if ($("#product-name").val() === "") {
+        main.setError("نام محصول الزامی است", "#product-name");
         return;
     }
-    if ($('#product-name').val().length > 30) {
-        $(".error-msg").text("نام محصول از 30 کاراکتر زیاد است");
-        $('#product-name').addClass('invalid');
+    if ($("#product-category").val() === "0") {
+        main.setError("دسته‌بندی محصول را انتخاب کنید", "#product-category");
         return;
     }
-    if ($("#product-category").val() == 0) {
-        $(".error-msg").text("انتخاب دسته‌بندی محصول الزامی است");
-        $('#product-category').addClass('invalid');
+    if ($("#product-price").val() === "") {
+        main.setError("قیمت محصول الزامی است", "#product-price");
         return;
     }
-    if ($("#product-price").val() == "") {
-        $(".error-msg").text("قیمت محصول الزامی است");
-        $('#product-price').addClass('invalid');
+    if ($("#product-stock").val() === "") {
+        main.setError("موجودی محصول الزامی است", "#product-stock");
         return;
     }
-    if ($("#product-stock").val() == "") {
-        $(".error-msg").text("موجودی محصول الزامی است");
-        $('#product-stock').addClass('invalid');
+    if ($("#product-description").val() === "") {
+        main.setError("توضیح محصول الزامی است", "#product-description");
         return;
     }
-    if ($("#product-description").val() == "") {
-        $(".error-msg").text("توضیحی برای محصول الزامی است");
-        $('#product-description').addClass('invalid');
+    if (!$("#product-image")[0].files[0]) {
+        main.setError("تصویر محصول را انتخاب کنید", "#product-image");
         return;
     }
 
-    let file = $('#product-image')[0].files[0];
-    let formData = new FormData();
-    formData.append('file', $('#product-image')[0].files[0]);
-    formData.append('name', $('#product-name').val());
-    formData.append('category', $('#product-category').val());
-    formData.append('price', $('#product-price').val());
-    formData.append('stock', $('#product-stock').val());
-    formData.append('description', $('#product-description').val());
-    formData.append('img', $('#product-img').val());
-
+    const formData = new FormData();
+    formData.append("file", $("#product-image")[0].files[0]);
+    formData.append("name", $("#product-name").val().trim());
+    formData.append("category", $("#product-category").val());
+    formData.append("price", $("#product-price").val());
+    formData.append("stock", $("#product-stock").val());
+    formData.append("description", $("#product-description").val().trim());
 
     $.ajax({
         url: "../api/product_action.php",
         method: "POST",
         data: formData,
         contentType: false,
-        processData: false
-    })
-
-    $(".error-msg").text("محصول شما با موفقیت اضافه شد");
-    $(".error-msg").addClass("success-msg");
-    $(".success-msg").removeClass("error-msg");
-    $(".seller-card").addClass("valid");
-}
-
-main.addShopCart = (btn, ID) => {
-
-    let data = {
-        id: ID
-    }
-
-    main.post1('cart_action.php', data, res => {
-        if (res.code == 405) {
-            main.TOAST("محصول به سبد خرید منتقل شد", "valid");
-        }
-        if (res.code == 505) {
-            main.TOAST("نیاز است که به اکانت خود ورود کنید", "invalid");
+        processData: false,
+        dataType: "json",
+        success: res => {
+            $(".error-msg").text(res.message).addClass("success-msg");
+            $(".seller-card").addClass("valid");
+            $("#seller-product-form").find("input[type='text'], input[type='number'], textarea").val("");
+            $("#product-category").val("0");
+            $("#product-image").val("");
+        },
+        error: xhr => {
+            const res = xhr.responseJSON || { message: "ثبت محصول انجام نشد." };
+            main.setError(res.message);
         }
     });
 };
 
+main.addShopCart = productId => {
+    main.postForm("cart_action.php", { id: productId }, res => {
+        if (typeof res.cartCount !== "undefined") {
+            $(".cart-count").text(res.cartCount);
+        }
+        main.TOAST(res.message || "محصول به سبد خرید اضافه شد", "valid");
+    }, res => {
+        main.TOAST(res.message || "افزودن به سبد خرید انجام نشد", "invalid");
+    });
+};
+
+main.removeShopCart = productId => {
+    main.postForm("cart_remove.php", { id: productId }, res => {
+        if (typeof res.cartCount !== "undefined") {
+            $(".cart-count").text(res.cartCount);
+        }
+        main.TOAST(res.message || "محصول حذف شد", "valid");
+    }, res => {
+        main.TOAST(res.message || "حذف از سبد خرید انجام نشد", "invalid");
+    });
+};
+
+main.checkout = () => {
+    $(".buy-btn").prop("disabled", true);
+    main.postForm("buy_action.php", {}, res => {
+        main.TOAST(res.message || "خرید ثبت شد", "valid");
+    }, res => {
+        $(".buy-btn").prop("disabled", false);
+        main.TOAST(res.message || "ثبت خرید انجام نشد", "invalid");
+    });
+};
+
 main.TOAST = (text, cls) => {
-    let card = '<div class="toast ' + cls + '">' + text + '</div>';
-    $('main').append(card);
+    const card = '<div class="toast ' + cls + '">' + text + "</div>";
+    $("main").append(card);
     setTimeout(() => {
-
-        $('.toast').addClass('active');
-    }, 20)
+        $(".toast").addClass("active");
+    }, 20);
     setTimeout(() => {
-        $('.toast').removeClass('active');
+        $(".toast").removeClass("active");
         setTimeout(() => {
-            $('.toast').remove();
+            $(".toast").remove();
         }, 600);
-
-    }, 5000);
-    setTimeout(() => {
-        location.reload();
-    }, 5150)
-}
+    }, 2500);
+};
 
 main.roleChange = (userID, role) => {
-
-    let data = {
-        user_id: userID,
-        role: role
-    }
-
-    main.post1('role_change.php', data, res => {
-        if (res.code == 406) {
-            location.reload();
-        }
+    main.postForm("role_change.php", { user_id: userID, role: role }, () => {
+        location.reload();
+    }, res => {
+        main.TOAST(res.message || "تغییر نقش انجام نشد", "invalid");
     });
-}
+};
 
 main.changeUser = () => {
-
-
-
     $(".error-msg").text("");
     $(".invalid").removeClass("invalid");
 
-    if ($("#name-panel").val() == "") {
-        $(".error-msg").text("فیاد ها نباید خالی باشند");
-        $("#name-panel").addClass("invalid");
+    if ($("#name-panel").val() === "") {
+        main.setError("فیلدها نباید خالی باشند", "#name-panel");
         return;
-    };
-    if ($("#uname-panel").val() == "") {
-        $(".error-msg").text("فیاد ها نباید خالی باشند");
-        $("#uname-panel").addClass("invalid");
+    }
+    if ($("#uname-panel").val() === "") {
+        main.setError("فیلدها نباید خالی باشند", "#uname-panel");
         return;
-    };
-    if ($("#email-panel").val() == "") {
-        $(".error-msg").text("فیاد ها نباید خالی باشند");
-        $("#email-panel").addClass("invalid");
+    }
+    if ($("#email-panel").val() === "") {
+        main.setError("فیلدها نباید خالی باشند", "#email-panel");
         return;
-    };
-    let emailSplit = ($("#email-panel").val()).split("@");
-    if (emailSplit.length != 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email-panel").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.').length != 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email-panel").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.')[0].length < 3) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email-panel").addClass("invalid");
-        return;
-    };
-
-    if (emailSplit[1].split('.')[1].length < 2) {
-        $(".error-msg").text("ایمیل شما صحیح نمیباشد");
-        $("#email-panel").addClass("invalid");
-        return;
-    };
-
-
-    let data = {
-        realname: $("#name-panel").val(),
-        username: $("#uname-panel").val(),
-        email: $("#email-panel").val(),
-        password: $("#pass-panel").val(),
     }
 
+    const data = {
+        realname: $("#name-panel").val().trim(),
+        username: $("#uname-panel").val().trim(),
+        email: $("#email-panel").val().trim(),
+        password: $("#pass-panel").val()
+    };
 
-    main.post('change_user.php', data, res => {
-        if (res.code == 501) {
-            $(".error-msg").text("An error occured while registering!");
-            return;
-        }
-        if (res.code == 508) {
-            $("#uname-panel").addClass("invalid");
-            $(".error-msg").text("این نام کاربری تکراری است");
-            return;
-        }
-        if (res.code == 400) {
-            $(".form-area").addClass("valid");
-            $(".error-msg").addClass("success-msg");
-            $(".success-msg").removeClass("error-msg");
-            $(".success-msg").text("تغییرات با موفقیت انجام شد. (منتظر باشید ...)");
-            setTimeout(() => {
-                location.href = '../api/logout.php';
-            }, 2000)
-        }
-    })
-}
-
-
+    main.post("change_user.php", data, res => {
+        $(".form-area").addClass("valid");
+        $(".error-msg").addClass("success-msg").text(res.message || "تغییرات ذخیره شد.");
+        setTimeout(() => {
+            location.reload();
+        }, 1200);
+    }, res => {
+        main.setError(res.message || "ذخیره تغییرات انجام نشد");
+    });
+};
 
 $(() => {
-    $("#register-btn").on('click', function () {
-        main.register();
+    $("#register-btn").on("click", main.register);
+    $("#login-btn").on("click", main.login);
+    $(".btn-save").on("click", main.changeUser);
+    $("#submit-product").on("click", main.addProduct);
+    $(".add-shop-cart").on("click", function () {
+        main.addShopCart($(this).attr("data-id"));
     });
-    $("#login-btn").on('click', function () {
-        main.login();
+    $(".remove-shop-cart").on("click", function () {
+        main.removeShopCart($(this).attr("data-id"));
     });
-    $(".btn-save").on('click', function () {
-        main.changeUser();
-    });
-    $('#submit-product').on('click', function () {
-        main.addProduct();
-    });
-    $('.add-shop-cart').on('click', function () {
-        main.addShopCart($(this), $(this).attr('data-id'));
-    });
-    $('.admin-user-btn').on('click', function () {
-        main.roleChange($(this).attr('data-id'), $(this).attr('data-role'));
+    $(".buy-btn").on("click", main.checkout);
+    $(".admin-user-btn").on("click", function () {
+        main.roleChange($(this).attr("data-id"), $(this).attr("data-role"));
     });
 });

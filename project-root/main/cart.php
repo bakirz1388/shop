@@ -1,31 +1,12 @@
 <?php
-session_start();
-$cartList = [];
-if (isset($_SESSION['cart'])) {
-    $cartId = $_SESSION['cart'];
-    
 
-    $conn = new mysqli("localhost","root","","shop_db");
+declare(strict_types=1);
 
-    if($conn->connect_error){
-        die("connection failed: " . $conn->connect_error);
-    }
-    foreach ($cartId as $cart) {
+require_once __DIR__ . '/../includes/store.php';
 
-        $query = "SELECT * FROM products WHERE id = $cart";
-        
-        $result = mysqli_query($conn,$query);
-        $row = mysqli_fetch_array($result);
-        $cartList[] = $row;
-    }
-}
-$totalPay = 0;
-
-foreach ($cartList as $value) {
-    $totalPay += $value['price'];
-}
-
-
+$summary = cartSummary();
+$cartList = $summary['items'];
+$totalPay = $summary['total'];
 ?>
 
 <!DOCTYPE html>
@@ -42,26 +23,26 @@ foreach ($cartList as $value) {
     <main>
         <div class="margin-for-prod" style="margin-bottom: 15px;"></div>
         <div id="toast"></div>
-        <?php if(empty($cartList)): ?>
-            <center><h1>سبد خرید شما خالیست 🛒</h1></center>
+        <?php if ($cartList === []): ?>
+            <center><h1>سبد خرید شما خالی است 🛒</h1></center>
         <?php else: ?>
             <ul class="product-list">
 
-                <?php foreach($cartList as $prod): ?>
+                <?php foreach ($cartList as $prod): ?>
                     <li class="item" id="prod-<?= $prod['id'] ?>">
                         <div class="picture">
-                            <img class="product-img" src="../assets/images/products/<?= $prod['img'] ?>.jpg">
+                            <img class="product-img" src="<?= h(productImagePath($prod['img'])) ?>" alt="<?= h($prod['name']) ?>">
                         </div>
                         <div class="product">
-                            <div class="product-name"><?= $prod['name'] ?></div>
+                            <div class="product-name"><?= h($prod['name']) ?></div>
                             <div class="product-price">
-                                <b style="color: red;"><?= number_format($prod['price']); ?></b> تومان
+                                <b style="color: red;"><?= number_format((int) $prod['price']); ?></b> تومان
                             </div>
-
+                            <button class="auth-btn remove-shop-cart" data-id="<?= $prod['id'] ?>">حذف از سبد خرید</button>
                         </div>
                     </li>
                 <?php endforeach ?>
-                    
+
             </ul>
         <?php endif ?>
         <div class="invoice-card">
@@ -78,11 +59,11 @@ foreach ($cartList as $value) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($cartList as $prod): ?>
+                    <?php foreach ($cartList as $prod): ?>
                         <tr class="product">
-                            <td class="cart-product-name"><?= $prod['name'] ?></td>
+                            <td class="cart-product-name"><?= h($prod['name']) ?></td>
                             <td class="price-col">
-                                <b><?= number_format($prod['price']) ?></b> تومان
+                                <b><?= number_format((int) $prod['price']) ?></b> تومان
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -94,11 +75,11 @@ foreach ($cartList as $value) {
                 <span class="total-label">: قیمت نهایی محصولات</span>
             </div>
 
-            <button class="buy-btn">خرید نهایی</button>
+            <button class="buy-btn" <?= $cartList === [] ? 'disabled' : '' ?>>خرید نهایی</button>
         </div>
 
     <div class="invoice-footer">
-        با تشکر از خرید شما | ضمانت اصالت کالا
+        سفارش شما پس از ثبت، داخل پنل ادمین قابل مشاهده است.
     </div>
 </div>
     </main>

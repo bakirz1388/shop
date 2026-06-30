@@ -1,20 +1,11 @@
 <?php
-session_start();
 
-$userID = $_SESSION['user_id'];
+declare(strict_types=1);
 
-$conn = new mysqli("localhost","root","","shop_db");
+require_once __DIR__ . '/../includes/store.php';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
-}
-
-$query = "SELECT * FROM users WHERE user_id = $userID";
-
-$result = mysqli_query($conn,$query);
-$row = mysqli_fetch_array($result);
-
-$conn->close();
+$sessionUser = requireLogin();
+$row = fetchUserById($sessionUser['user_id']);
 ?>
 
 <!DOCTYPE html>
@@ -36,20 +27,20 @@ $conn->close();
               <div id="profileForm">
                   <div class="double-group">
                       <div class="input-group">
-                          <label> نام و نام خانوادگی</label>
-                          <input type="text" id="name-panel" placeholder="نام کامل" value="<?= $row['r_name'] ?>">
+                          <label>نام و نام خانوادگی</label>
+                          <input type="text" id="name-panel" placeholder="نام کامل" value="<?= h($row['r_name']) ?>">
                       </div>
                       <div class="input-group">
-                          <label> نام کاربری</label>
-                          <input type="text" id="uname-panel" placeholder="نام کاربری" value="<?= $row['u_name'] ?>">
+                          <label>نام کاربری</label>
+                          <input type="text" id="uname-panel" placeholder="نام کاربری" value="<?= h($row['u_name']) ?>">
                       </div>
                   </div>
                   <div class="input-group">
-                      <label> ایمیل</label>
-                      <input type="email" id="email-panel" placeholder="ایمیل" value="<?= $row['email'] ?>">
+                      <label>ایمیل</label>
+                      <input type="email" id="email-panel" placeholder="ایمیل" value="<?= h($row['email']) ?>">
                   </div>
                   <div class="input-group">
-                      <label> رمز عبور جدید (اختیاری)</label>
+                      <label>رمز عبور جدید (اختیاری)</label>
                       <input type="password" id="pass-panel" placeholder="در صورت تمایل رمز جدید وارد کنید">
                   </div>
                   <div class="double-group">
@@ -57,7 +48,7 @@ $conn->close();
                     <span class="error-msg"></span>
                   </div>
               </div>
-    </div>        
+    </div>
 
 </main>
   <?php include("../includes/footer.php"); ?>

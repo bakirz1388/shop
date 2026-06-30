@@ -1,20 +1,11 @@
 <?php
-session_start();
 
-$conn = new mysqli("localhost","root","","shop_db");
+declare(strict_types=1);
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
-}
+require_once __DIR__ . '/../includes/store.php';
 
-$products = "SELECT * FROM products WHERE `status`  > 0 AND `category` = 'Appliances'";
-
-$result = mysqli_query($conn,$products);
-$row = mysqli_fetch_array($result);
-
-$conn->close();
+$products = fetchProducts('Appliances');
 ?>
-<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -22,7 +13,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="icon" href="../assets/images/logoBakiRZ.png">
-    <title>BakiRZ | Products</title>
+    <title>BakiRZ | Appliances</title>
 
 </head>
 <body>
@@ -32,15 +23,15 @@ $conn->close();
         <div class="margin-for-prod" style="margin-bottom: 15px;"></div>
         <div id="toast"></div>
         <ul class="product-list">
-            <?php foreach($result as $prod): ?>
+            <?php foreach ($products as $prod): ?>
                 <li class="item" data-product-id="<?= $prod['id'] ?>">
                     <div class="picture">
-                        <img class="product-img" src="../assets/images/products/<?= $prod['img'] ?>.jpg">
+                        <img class="product-img" src="<?= h(productImagePath($prod['img'])) ?>" alt="<?= h($prod['name']) ?>">
                     </div>
                     <div class="product">
-                        <div class="product-name"><?= $prod['name'] ?></div>
+                        <div class="product-name"><?= h($prod['name']) ?></div>
                         <div class="product-price">
-                            <b style="color: red;"><?= number_format($prod['price']); ?></b> تومان
+                            <b style="color: red;"><?= number_format((int) $prod['price']); ?></b> تومان
                         </div>
                         <button class="auth-btn add-shop-cart" data-id="<?= $prod['id'] ?>">افزودن به سبد خرید</button>
                     </div>

@@ -1,39 +1,40 @@
 <?php
 
+declare(strict_types=1);
 
-$conn = new mysqli("localhost","root","","shop_db");
+require_once __DIR__ . '/../includes/bootstrap.php';
 
-if($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
+$data = json_decode(file_get_contents('php://input'), true) ?? [];
+
+$realname = trim((string) ($data['realname'] ?? ''));
+$username = trim((string) ($data['username'] ?? ''));
+$password = (string) ($data['password'] ?? '');
+$email = trim((string) ($data['email'] ?? ''));
+
+if ($realname === '' || $username === '' || $password === '' || $email === '') {
+    jsonResponse(['code' => 422, 'message' => 'تمام فیلدها الزامی هستند.'], 422);
 }
 
-$data = json_decode(file_get_contents('php://input'), true);
-
-$rname = $data['realname'];
-$uname = $data['username'];
-$pass = $data['password'];
-$email = $data['email'];
-$role = $data['role'];
-
-$ucheck = "SELECT * FROM users WHERE u_name = '$uname'";
-$result = $conn->query($ucheck);
-
-if($result->num_rows > 0){
-    echo json_encode(["code" => "500"]);
-    return;
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    jsonResponse(['code' => 422, 'message' => 'ایمیل معتبر نیست.'], 422);
 }
 
-$query = "INSERT INTO users (r_name,u_name,pass,email,role) 
-VALUES ('$rname', '$uname', '$pass', '$email', '$role')";
+$checkStmt = db()->prepare('SELECT user_id FROM users WHERE u_name = ? LIMIT 1');
+$checkStmt->bind_param('s', $username);
+$checkStmt->execute();
+$exists = $checkStmt->get_result()->fetch_assoc();
+$checkStmt->close();
 
-if($conn->query($query) === TRUE) {
-    echo json_encode(['code' => 400]);
-} else {
-    echo json_encode(['code' => 501]);
+if ($exists) {
+    jsonResponse(['code' => 500, 'message' => 'این نام کاربری قبلا استفاده شده است.'], 409);
 }
 
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+$role = 0;
 
-$conn->close();
+$stmt = db()->prepare('INSERT INTO users (r_name, u_name, pass, email, role) VALUES (?, ?, ?, ?, ?)');
+$stmt->bind_param('ssssi', $realname, $username, $hashedPassword, $email, $role);
+$stmt->execute();
+$stmt->close();
 
-
-?>
+jsonResponse(['code' => 400, 'message' => 'حساب کاربری با موفقیت ساخته شد.']);

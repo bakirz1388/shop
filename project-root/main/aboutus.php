@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../includes/bootstrap.php';
+?>
 
 <!DOCTYPE html>
 <html lang="fa">
@@ -23,14 +28,12 @@
       min-height: 100vh;
     }
 
-    /* محتوای اصلی */
     main {
       direction: rtl;
       flex: 1;
       padding: 40px 20px;
     }
 
-    /* باکس درباره ما */
     .about-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -38,11 +41,9 @@
       border-radius: 24px;
       box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.08);
       overflow: hidden;
-      transition: all 0.3s ease;
       animation: fadeInUp 0.8s ease;
     }
 
-    /* هدر سبز داخل باکس */
     .about-header {
       background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
       padding: 40px 30px;
@@ -52,9 +53,7 @@
 
     .about-header h1 {
       font-size: 2.5rem;
-      margin: 0;
       font-weight: 700;
-      letter-spacing: -0.5px;
     }
 
     .about-header p {
@@ -63,7 +62,6 @@
       opacity: 0.9;
     }
 
-    /* محتوای داخلی */
     .about-content {
       padding: 40px 35px;
     }
@@ -120,16 +118,8 @@
       margin-left: 12px;
       color: #1e3a2f;
       font-weight: 500;
-      transition: 0.2s;
     }
 
-    .values-list li:hover {
-      background: #2c7a4d;
-      color: white;
-      transform: translateY(-3px);
-    }
-
-    /* انیمیشن */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -138,24 +128,6 @@
       to {
         opacity: 1;
         transform: translateY(0);
-      }
-    }
-
-    /* واکنش‌گرا */
-    @media (max-width: 768px) {
-      .about-content {
-        padding: 25px 20px;
-      }
-      .about-header h1 {
-        font-size: 1.9rem;
-      }
-      .section h2 {
-        font-size: 1.4rem;
-      }
-      .values-list li {
-        display: block;
-        text-align: center;
-        margin: 10px 0;
       }
     }
   </style>
@@ -167,47 +139,35 @@
 <main>
   <div class="about-container">
     <div class="about-header">
-      <h1>✨ درباره فروشگاه BakiRZ</h1>
-      <p>کیفیت، اعتماد، تجربه مدرن خرید آنلاین</p>
+      <h1>درباره فروشگاه BakiRZ</h1>
+      <p>کیفیت، سادگی و تجربه خرید قابل اعتماد</p>
     </div>
 
     <div class="about-content">
       <div class="section">
         <h2>داستان ما</h2>
-        <p>فروشگاه آنلاین <strong>BakiRZ</strong> با هدف ارائه محصولات باکیفیت، قیمت منصفانه و تجربه خریدی لذت‌بخش شروع به کار کرد. ما به مشتری‌ها نه به عنوان یک تراکنش، بلکه به عنوان همراه همیشگی نگاه می‌کنیم.</p>
+        <p>BakiRZ با هدف ساختن یک فروشگاه ساده و قابل‌اعتماد برای خرید آنلاین شروع شد. تمرکز پروژه روی این است که فرآیند ثبت محصول، انتخاب کالا و خرید نهایی تا حد ممکن شفاف و سریع باشد.</p>
       </div>
 
       <div class="section">
-        <h2>🎯 ماموریت</h2>
-        <p>ارائه محصولات اصل، ارسال سریع و پشتیبانی حرفه‌ای در ۷ روز هفته. مأموریت ما ساختن اعتماد و لبخند رضایت روی صورت شماست.</p>
+        <h2>ماموریت</h2>
+        <p>ارائه محصولات متنوع، مدیریت بهتر سفارش‌ها و ایجاد تجربه‌ای که هم برای مشتری و هم برای مدیر سایت قابل کنترل و توسعه باشد.</p>
       </div>
 
       <div class="section">
-        <h2>💎 ارزش‌های ما</h2>
+        <h2>ارزش‌های ما</h2>
         <ul class="values-list">
-          <li>کیفیت بی‌چون‌وچرا</li>
-          <li>رضایت مشتری اولویت اول</li>
-          <li>کار تیمی و شفافیت</li>
-          <li>استفاده از تکنولوژی روز</li>
-          <li>احترام به زمان شما</li>
+          <li>شفافیت در خرید</li>
+          <li>تمرکز روی تجربه کاربر</li>
+          <li>امنیت بیشتر در ورود و مدیریت</li>
+          <li>قابلیت توسعه تدریجی</li>
+          <li>سادگی در استفاده</li>
         </ul>
       </div>
 
       <div class="section">
-        <h2>🏆 اهداف ما</h2>
-        <p>افزایش رضایت مشتری، گسترش فروشگاه در سطح کشوری و ایجاد تجربه خریدی هوشمند و بدون استرس برای همه کاربران ایرانی.</p>
-      </div>
-
-      <div class="section">
-        <h2>📦 محصولات ما</h2>
-        <p>از دیجیتال گرفته تا پوشاک و سبک زندگی، همه محصولات با ضمانت بازگشت وجه و گارانتی اصالت کالا ارائه می‌شوند.</p>
-      </div>
-
-      <div class="section">
-        <h2>📞 ارتباط با ما</h2>
-        <p>📧 ایمیل: <strong>info@shopfun.com</strong><br>
-        📞 تلفن پشتیبانی: <strong>۰۹۱۲۳۴۵۶۷۸۹</strong><br>
-        🕰 ساعات پاسخگویی: ۹ صبح تا ۸ شب ( حتی تعطیلات )</p>
+        <h2>چشم‌انداز</h2>
+        <p>این پروژه پایه‌ای برای توسعه یک فروشگاه کامل‌تر است؛ از مدیریت سفارش و گزارش‌گیری تا جستجو، فیلتر و پنل‌های حرفه‌ای‌تر.</p>
       </div>
     </div>
   </div>
