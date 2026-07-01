@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../includes/bootstrap.php';
 
+requireCsrfToken();
+
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 
 $realname = trim((string) ($data['realname'] ?? ''));
@@ -17,6 +19,10 @@ if ($realname === '' || $username === '' || $password === '' || $email === '') {
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     jsonResponse(['code' => 422, 'message' => 'ایمیل معتبر نیست.'], 422);
+}
+
+if (mb_strlen($password) < 8) {
+    jsonResponse(['code' => 422, 'message' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.'], 422);
 }
 
 $checkStmt = db()->prepare('SELECT user_id FROM users WHERE u_name = ? LIMIT 1');

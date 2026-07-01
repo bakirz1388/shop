@@ -18,6 +18,7 @@ requireRole([1, 2]);
 </head>
 
 <body>
+    <script>window.CSRF_TOKEN = <?= json_encode(csrfToken(), JSON_UNESCAPED_UNICODE) ?>;</script>
     <main class="seller-main" dir="rtl">
         <div class="container seller-layout">
             <section class="seller-card seller-form-wrap">

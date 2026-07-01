@@ -23,6 +23,7 @@ $orders = fetchOrdersForAdmin();
 </head>
 
 <body>
+    <script>window.CSRF_TOKEN = <?= json_encode(csrfToken(), JSON_UNESCAPED_UNICODE) ?>;</script>
 
     <main class="admin-main" dir="rtl">
         <div class="container admin-layout">

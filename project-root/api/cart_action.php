@@ -6,6 +6,7 @@ require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/store.php';
 
 requireApiLogin();
+requireCsrfToken();
 
 $productId = (int) ($_POST['id'] ?? 0);
 if ($productId <= 0) {

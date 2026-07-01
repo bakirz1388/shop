@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/bootstrap.php';
 
 requireApiLogin();
+requireCsrfToken();
 
 $productId = (int) ($_POST['id'] ?? 0);
 if ($productId <= 0) {

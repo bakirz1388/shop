@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/bootstrap.php';
 
 $currentAdmin = requireApiRole([1]);
+requireCsrfToken();
+
 $userId = (int) ($_POST['user_id'] ?? 0);
 $role = (int) ($_POST['role'] ?? -1);
 

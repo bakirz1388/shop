@@ -1,5 +1,16 @@
 const main = {};
 
+// Automatically attach the per-session CSRF token (rendered into the page
+// as window.CSRF_TOKEN by includes/header.php or main/admin.php|seller.php)
+// to every POST request, so individual call sites don't need to remember to.
+$.ajaxSetup({
+    beforeSend: function (xhr, settings) {
+        if (settings.type === "POST" && window.CSRF_TOKEN) {
+            xhr.setRequestHeader("X-CSRF-Token", window.CSRF_TOKEN);
+        }
+    }
+});
+
 main.post = (action, data, onSuccess, onError) => {
     $.ajax({
         url: "../api/" + action,

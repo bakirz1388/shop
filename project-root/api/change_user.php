@@ -6,6 +6,8 @@ require_once __DIR__ . '/../includes/bootstrap.php';
 require_once __DIR__ . '/../includes/store.php';
 
 $user = requireApiLogin();
+requireCsrfToken();
+
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 
 $realname = trim((string) ($data['realname'] ?? ''));
@@ -19,6 +21,10 @@ if ($realname === '' || $username === '' || $email === '') {
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     jsonResponse(['code' => 422, 'message' => 'ایمیل معتبر نیست.'], 422);
+}
+
+if ($password !== '' && mb_strlen($password) < 8) {
+    jsonResponse(['code' => 422, 'message' => 'رمز عبور باید حداقل ۸ کاراکتر باشد.'], 422);
 }
 
 $currentRecord = fetchUserById($user['user_id']);

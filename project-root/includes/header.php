@@ -13,7 +13,10 @@ if ($user !== null) {
         $panel = "<li>|</li><li><a href='../main/seller.php' target='_blank'>پنل فروشنده</a></li>";
     }
 }
+$csrfToken = csrfToken();
 ?>
+
+<script>window.CSRF_TOKEN = <?= json_encode($csrfToken, JSON_UNESCAPED_UNICODE) ?>;</script>
 
 <header class="main-header">
     <div class="top-bar">
@@ -29,7 +32,7 @@ if ($user !== null) {
 
             <div class="header-actions">
                 <?php if ($user !== null): ?>
-                    <div class="username-header"><a href="../api/logout.php" id="singout-btn">↪</a> خوش آمدید <a href="./user-panel.php" target="_blank"><?= h($user['u_name']) ?></a></div>
+                    <div class="username-header"><a href="../api/logout.php?csrf_token=<?= urlencode($csrfToken) ?>" id="singout-btn">↪</a> خوش آمدید <a href="./user-panel.php" target="_blank"><?= h($user['u_name']) ?></a></div>
                 <?php else: ?>
                     <a href="../main/login.php" class="login-btn" target="_self">ورود | ثبت نام</a>
                 <?php endif ?>
